@@ -1,0 +1,13 @@
+{
+  "login": {
+    "user_name": "UserName",
+    "password": "Password",
+    "btnLogin": "Sign In",
+    "btnRegister": "Sign Up",
+    "remember": "Remember"
+  },
+  "left" : {
+    "download_cv" : "Download CV"
+  },
+  "message": "hello i18n !!"
+}

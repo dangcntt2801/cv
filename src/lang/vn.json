@@ -1,0 +1,13 @@
+{
+    "login": {
+        "user_name": "Tên Đăng Nhập",
+        "password": "Mật Khẩu",
+        "btnLogin": "Đăng Nhập",
+        "btnRegister": "Đăng Ký",
+        "remember": "Lưu Thông Tin"
+    },
+    "left" : {
+        "download_cv" : "Tải CV"
+      },
+    "message": "hello i18n !!"
+}
