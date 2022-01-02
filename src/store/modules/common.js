@@ -1,32 +1,24 @@
 const state = () => ({
-  tab: 1
+    isExpand: false
 })
 
 // getters
-const getters = {
-  tab: (state) => {
-    return state.tab
-  }
-}
+const getters = {}
 
 // actions
-const actions = {
-  setTab ({ commit }, tab) {
-    commit('SETTAB', tab)
-  }
-}
+const actions = {}
 
-// mutations
+// mutationsa
 const mutations = {
-  SETTAB (state, tab) {
-    state.tab = tab
-  }
+    CHANGEISEXPAND(state) {
+        state.isExpand = !state.isExpand
+    }
 }
 
 export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
+    namespaced: true,
+    state,
+    getters,
+    actions,
+    mutations
 }

@@ -5,8 +5,7 @@ import router from './router'
 import store from './store/index'
 
 createApp(App)
-.use(router)
-.use(i18n)
-.use(store)
-.mount('#app')
-
+    .use(router)
+    .use(i18n)
+    .use(store)
+    .mount('#app')
