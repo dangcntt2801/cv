@@ -46,5 +46,6 @@ export default {
         margin-top:64px;
         height: calc(100vh - 64px);
         overflow-y: auto;
+        position: relative;
     }
 </style>

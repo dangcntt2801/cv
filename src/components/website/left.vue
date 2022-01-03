@@ -32,10 +32,13 @@
                   <div> Unique dashboard designs </div>
               </div>
               <div class="navigation-box">
-                  <div class="navigation-item">
+                  <router-link to="/happyland">
+                   <div class="navigation-item">
                       <i class="fas fa-user"></i>
                       <span>Happy Lands</span>
                   </div>
+                  </router-link>
+   
                   <div class="navigation-item">
                       <i class="fas fa-user"></i>
                       <span>Spinter lands</span>
