@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import index from '@/components/index'
-import login from '@/components/Login'
+import login from '@/components/game/login'
 import index from '@/components/website/index'
 import happyland from '@/components/game/happyland'
 

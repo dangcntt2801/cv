@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Table from "../../mixins/table";
+import Table from "../../store/modules/table";
 
 export default {
   name: "Pagination",

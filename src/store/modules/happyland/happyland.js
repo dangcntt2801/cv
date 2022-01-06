@@ -1,6 +1,7 @@
 const state = () => ({
     all: [],
     isEditData: {
+        id: '',
         email: '',
         pass: '',
         key: '',
@@ -26,9 +27,12 @@ const mutations = {
     ADD_ACCOUNT(state, value) {
         state.all.push(value)
     },
-    EDIT_ACCOUNT() {
-
+    SET_DATA_EDIT_ACCOUNT(state, value) {
+        state.isEditData = state.all[value]
     },
+    // EDIT_ACCOUNT(state, value) {
+    //     // state.all.find
+    // },
     CLEAR_DATA(state) {
         state.isEditData = {
             email: '',

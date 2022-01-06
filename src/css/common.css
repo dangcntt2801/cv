@@ -40,3 +40,120 @@ h4 {}
 .btn i {
     margin-right: 10px;
 }
+
+
+/* -----------table---------- */
+
+table {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.table-bottom {
+    display: flex;
+    align-items: center;
+    margin: 0px 50px 10px 50px;
+}
+
+.pagination {
+    margin-left: auto;
+    display: inline-flex;
+}
+
+.pagination-btn {
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    border: 0.25px solid #ddd;
+    background: #fafafa;
+    color: #666;
+    /* width: 35px; */
+    /* height: 35px; */
+    /* font-size: 16px; */
+    /* border: 1px solid #333333; */
+    /* padding: 5px 0; */
+    text-align: center;
+    cursor: pointer;
+    /* color: #333333; */
+}
+
+.pagination-btn:hover {
+    background-color: #eee;
+}
+
+.pagination-btn-active,
+.pagination-btn-active:hover {
+    /* background-color: #333333;
+  color: #ffffff; */
+    background-color: #2980B9 !important;
+    border-color: #2980B9;
+    color: #fff;
+    z-index: 3;
+    cursor: default;
+}
+
+.pagination-prev,
+.pagination-next {
+    border: 1px solid #ddd;
+    color: #777;
+    position: relative;
+    width: 40px;
+    height: 35px;
+    /* color: #333333; */
+    /* border: 1px solid #333333; */
+    cursor: pointer;
+}
+
+.pagination-prev::after {
+    content: "前";
+    position: absolute;
+    /* width: 10px;
+  height: 10px;
+  border-left: 1px solid #333333;
+  border-bottom: 1px solid #333333; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pagination-next::after {
+    content: "次";
+    position: absolute;
+    /* width: 10px;
+  height: 10px;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pagination-prev {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.pagination-next {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.pagination-btn {}
+
+.pagination-dots {
+    width: 10px;
+    color: #666;
+    border-bottom: 2px dotted #666;
+    cursor: not-allowed;
+}
+
+
+/* .pagination a + a {
+  margin-left: 5px;
+} */
+
+.pagination-not-allow {
+    cursor: not-allowed;
+}
+
+
+/* -----------table--end ---------- */

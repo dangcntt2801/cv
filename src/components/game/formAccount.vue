@@ -25,14 +25,13 @@
 
 
 import { mapState, mapMutations} from 'vuex'
-
+import cloneDeep from "clone-deep";
 export default {
   mounted(){
-
   },
   data: function() {
         return {
-            editData:{}
+            data:{}
         }
     },
   computed: {
@@ -47,9 +46,13 @@ export default {
     }),
     actionSubmit() {
         if(this.mode == 'add') {
-            this.fetchAddAccount(this.isEditData)
+            this.data = cloneDeep(this.isEditData)
+            this.fetchAddAccount(this.data)
+            this.fetchSetmode('list')
         } else {
-            this.fetchEditAccount(this.isEditData)
+            this.data = cloneDeep(this.isEditData)
+            this.fetchEditAccount(this.data)
+            this.fetchSetmode('list')
         }
     },
     actionCancel() {
