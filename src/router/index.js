@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import index from '@/components/index'
 import login from '@/components/game/login'
-import index from '@/components/website/index'
+// import index from '@/components/website/index'
 import happyland from '@/components/game/happyland'
+import home_page from '@/components/website/homePage/home_page'
 
 const routes = [{
         path: '/',
         name: 'Home',
-        component: index,
+        component: home_page,
         children: [{
             path: 'happyland',
             name: 'happyland',
@@ -26,4 +27,8 @@ const router = createRouter({
     routes
 })
 
-export default router
+export default (app) => {
+    app.router = router;
+
+    app.use(router);
+}

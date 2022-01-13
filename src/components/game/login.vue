@@ -5,14 +5,14 @@
             <div v-show="mode =='sign_in'">
                 <h2>Sign in</h2>
                 <p>Don't have an account? <a href="#" @click="mode = 'sign_up'">Sign up</a></p>
-                <form>
+                <div class="form">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <input v-model="email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input v-model="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                   </div>
                   <div class="form-group form-check" style="display:flex;align-items:center;justify-content:space-between">
                     <span >
@@ -21,8 +21,8 @@
                     </span>
                     <a href="">Forgot password?</a>
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                </form>
+                  <button @click="login()" class="btn btn-primary btn-block">Submit</button>
+                </div>
             </div>
             <div v-show="mode =='sign_up'">
                 <h2>Sign up</h2>
@@ -67,13 +67,68 @@
 	</div>
 </template>
 <script>
+    // import axios from 'axios';
+    import {reactive } from 'vue';
+    // import {onMounted} from 'vue';
+    // import {useStore } from 'vuex';
+    // import {useRouter} from 'vue-router';
+    import { useAuth } from '../../v3.js';
 	export default {
 		name: 'P101Login',
-		data() {
-			return {
-				mode:'sign_in'
-			}
-		},
+        setup() {
+            const auth        = useAuth();
+            // const store    = useStore();
+            // const router   = useRouter();
+            // const authComp = useAuthComp();
+
+            const mode = 'sign_in'  
+            const state = reactive({
+                form: {
+                    body: {
+                        msisdn: 'lehonghaibndc',
+                        password: '123456',
+                    },
+                    remember: false,
+                    fetchUser: true,
+                    staySignedIn: false,
+                    errors: {}
+                }
+            });
+            // const form = {
+            //     msisdn: 'lehonghaibndc',
+            //     password: '123456',
+            // }
+
+            function errors(res) {
+                state.form.errors = Object.fromEntries(res.data.errors.map(item => [item.field, item.msg]));
+            }
+
+            async function login() {
+                  // eslint-disable-next-line no-debugger
+                debugger
+                // eslint-disable-next-line no-unused-vars
+                // let fetchCard = await axios.post(`http://35.240.246.176/be/user/login-api` , form)
+                // eslint-disable-next-line no-debugger
+                debugger
+                auth.login({
+                    data: state.form.body,
+                    remember: state.form.remember ? '{"name": "Default"}' : null,
+                    fetchUser: state.form.fetchUser,
+                    staySignedIn: state.form.staySignedIn,
+                    redirect: '/'
+                })
+                .then(null, (res) => {
+                    errors(res.response);
+                });
+            }
+
+
+            return {
+                mode,
+                login
+            }
+
+        },
 		mounted() {
 	
 		},
@@ -93,7 +148,6 @@
     }
     .login-left {
         padding: 50px;
-        padding-left: 500px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -107,7 +161,7 @@
         height: 50px;
         margin-bottom: 50px;
     }
-    .login-left form {
+    .login-left .form {
         margin-top: 20px;
     }
     .login-right {
