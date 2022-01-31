@@ -25,6 +25,5 @@ export function createAuth(options) {
 }
 
 export function useAuth(key) {
-    // eslint-disable-next-line no-debugger
     return inject(key ? key : authKey);
 }

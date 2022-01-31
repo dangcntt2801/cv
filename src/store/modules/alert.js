@@ -1,9 +1,12 @@
 const state = () => ({
-    mode: 'succes',
-    msg: ''
-})
+        typeAlert: {
+            type: 'success',
+            control: false,
+            msg: ''
+        }
 
-// getters
+    })
+    // getters
 const getters = {}
 
 // actions
@@ -11,12 +14,11 @@ const actions = {}
 
 // mutationsa
 const mutations = {
-    SETMODE(state, value) {
-        state.mode = value
+    SETMALERT(state, value) {
+        state.typeAlert.type = value.type
+        state.typeAlert.control = value.control
+        state.typeAlert.msg = value.msg
     },
-    SETMSG(state, value) {
-        state.msg = value
-    }
 }
 
 export default {

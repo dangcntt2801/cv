@@ -7,7 +7,6 @@ export default {
     },
 
     interceptor: function(req, res) {
-        // eslint-disable-next-line no-debugger
         var _this = this;
 
         if (req) {
@@ -48,8 +47,6 @@ export default {
     },
 
     http: function(data) {
-        // eslint-disable-next-line no-debugger
-        debugger
         return this.plugins.http(data);
     },
 

@@ -1,7 +1,6 @@
 import * as __utils from './lib/utils.js';
 import * as __token from './lib/token.js';
 import * as __cookie from './lib/cookie.js';
-
 var __auth = null;
 
 var __defaultOptions = {
@@ -120,6 +119,8 @@ function _setStaySignedIn(staySignedIn) {
 
 function _setRemember(val) {
     if (val) {
+        // eslint-disable-next-line no-debugger
+        debugger
         __token.set.call(__auth, __auth.options.rememberKey, val, false);
         __auth.$vm.state.remember = val;
     } else {
@@ -372,7 +373,6 @@ function _initDriverCheck() {
     var drivers = ['auth', 'http', 'router'];
 
     for (i = 0, ii = drivers.length; i < ii; i++) {
-        // eslint-disable-next-line no-debugger
         if (!__auth.drivers[drivers[i]]) {
             console.error('Error (@websanova/vue-auth): "' + drivers[i] + '" driver must be set.');
 
@@ -551,15 +551,15 @@ Auth.prototype.register = function(data) {
 
 Auth.prototype.login = function(data) {
     data = __utils.extend(__auth.options.loginData, data);
-
+    // eslint-disable-next-line no-debugger
+    debugger
     _setRemember(data.remember);
     _setStaySignedIn(data.staySignedIn);
-    // eslint-disable-next-line no-debugger
     return new Promise(function(resolve, reject) {
         __auth.drivers.http.http
             .call(__auth, data)
             .then(function(res) {
-                // eslint-disable-next-line no-debugger
+                localStorage.setItem('token', res.data.data.token);
                 if (
                     data.fetchUser ||
                     (data.fetchUser === undefined && __auth.options.fetchData.enabled)
@@ -574,9 +574,8 @@ Auth.prototype.login = function(data) {
 
                     resolve(res);
                 }
+
             }, function(res) {
-                // eslint-disable-next-line no-debugger
-                debugger
                 _setAuthenticated(false);
 
                 reject(res);

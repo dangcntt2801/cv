@@ -104,8 +104,9 @@
                   </th>
                 </tr>
               </thead>
-              <tbody v-if="users.length">
+              <tbody v-if="all.length">
                 <tr v-for="(user, index) in all" :key="index">
+                  <div style="display:none">{{status(user.account)}}</div>
                   <td>
                     <input
                       class="checkbox"
@@ -114,11 +115,11 @@
                       v-model="userSelect"
                     />
                   </td>
-                  <td>{{ user.id }}</td>
-                  <td>{{ user.email }}</td>
-                  <td>{{ user.pass }}</td>
-                  <td>{{ user.key }}</td>
-                  <td>{{ user.status }}</td>
+                  <td>{{ user.account }}</td>
+                  <td>{{ user.expire_time }}</td>
+                  <td>{{ user.type }}</td>
+                  <td><button type="button" class="btn btn-primary" @click='actionPlayGame(user.account)'>Play Game</button></td>
+                  <td>{{this.sttName[user.account]}}</td>
                   <td><button type="button" class="btn btn-primary" @click='actionEdit(index)'>Edit</button></td>
                 </tr>
               </tbody>
@@ -143,8 +144,8 @@ import TableDataLength from "../common/TableDataLength.vue";
 // import Pagination from "../common/Pagination";
 import Alert from "../common/alert";
 import formAccount from './formAccount.vue'
-import { mapState, mapMutations} from 'vuex'
-
+import { mapState, mapMutations, mapActions} from 'vuex'
+import { db , onSnapshot, doc} from '../../firebase'
 
 export default {
   mixins: [Table],
@@ -154,21 +155,19 @@ export default {
     formAccount,
     Alert
   },
+  setup() {
+  },
   data: function() {
         return {
+            firebaseData:[],
             limit:10,
             pagination: {},
-            users:[
-                {   
-                    id:1,
-                    is_admin:1,
-                    lastname:1,
-                    firstname:1,
-                    email:1,
-                    phone:1
-                }
-            ]
+            sttName: {}
         }
+    },
+    created() {
+        this.fetchActionAllAccount()
+        this.status('sutu9578')
     },
           mounted(){
               this.pagination = {
@@ -182,12 +181,17 @@ export default {
   },
   computed: {
     ...mapState("happyland", ["mode","all"]
-    )
+    ),
   },
   methods: {
+    ...mapActions({
+      fetchActionAllAccount: 'happyland/all',
+      fetchActionPlayGame: 'happyland/playgame'
+    }),
     ...mapMutations({
       fetchSetmode: 'happyland/SETMODE',
-      fetchSetDataEditAccount: 'happyland/SET_DATA_EDIT_ACCOUNT'
+      fetchSetDataEditAccount: 'happyland/SET_DATA_EDIT_ACCOUNT',
+      fetchSetAlert: 'alert/SETMALERT'
     }),
     actionAdd() {
         this.fetchSetmode('add')
@@ -195,6 +199,10 @@ export default {
     actionEdit(index) {
         this.fetchSetmode('edit')
         this.fetchSetDataEditAccount(index)
+    },
+    async actionPlayGame(account) {
+        let playgame = await this.fetchActionPlayGame(account)
+        this.fetchSetAlert(playgame)
     },
     actionDelete() {
     },
@@ -206,6 +214,11 @@ export default {
        // eslint-disable-next-line no-unused-vars
       let a  = page;
     },
+    async status(documentName) {
+        await onSnapshot(doc(db, "happyland", documentName), (doc) => {
+            this.sttName[documentName] = doc.data().detail
+        });
+    }
   },
 
 }

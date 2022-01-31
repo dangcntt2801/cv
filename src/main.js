@@ -3,8 +3,8 @@ import App from './App.vue'
 import i18n from './lang/i18n'
 import router from './router'
 import store from './store/index'
-import auth from './plugins/auth.js';
 import http from './http/index';
+import auth from './plugins/auth.js';
 
 createApp(App)
     .use(router)

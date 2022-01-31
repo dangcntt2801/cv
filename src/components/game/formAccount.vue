@@ -8,15 +8,15 @@
     </div>
     <div class="mb-3">
       <label for="" class="form-label">Email</label>
-      <input type="email" class="form-control"  placeholder="name@example.com" v-model="isEditData.email">
+      <input type="email" class="form-control"  placeholder="name@example.com" v-model="data.account">
     </div>
-    <div class="mb-3">
+    <!-- <div class="mb-3">
       <label for="" class="form-label">Public key</label>
       <input type="text" class="form-control" v-model="isEditData.key">
-    </div>
+    </div> -->
     <div class="mb-3">
       <label for="" class="form-label">Pass</label>
-      <input type="password" class="form-control" v-model="isEditData.password">
+      <input type="password" class="form-control" v-model="data.password">
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@
 <script>
 
 
-import { mapState, mapMutations} from 'vuex'
+import { mapState, mapMutations, mapActions} from 'vuex'
 import cloneDeep from "clone-deep";
 export default {
   mounted(){
@@ -35,20 +35,24 @@ export default {
         }
     },
   computed: {
-    ...mapState("happyland", ["mode","isEditData"]
-    )
+    ...mapState("happyland", ["mode","isEditData"])
   },
   methods: {
+    ...mapActions({
+      fetchActionAddAccount: 'happyland/add',
+      fetchActionGetAllAccount: 'happyland/all'
+    }),
     ...mapMutations({
       fetchSetmode: 'happyland/SETMODE',
-      fetchAddAccount: 'happyland/ADD_ACCOUNT',
-      fetchEditAccount: 'happyland/EDIT_ACCOUNT'
+      fetchEditAccount: 'happyland/EDIT_ACCOUNT',
+      fetchSetAlert: 'alert/SETMALERT'
     }),
-    actionSubmit() {
+    async actionSubmit() {
         if(this.mode == 'add') {
-            this.data = cloneDeep(this.isEditData)
-            this.fetchAddAccount(this.data)
+            let actionAdd = await this.fetchActionAddAccount(this.data)
+            this.fetchSetAlert(actionAdd)
             this.fetchSetmode('list')
+            this.fetchActionGetAllAccount()
         } else {
             this.data = cloneDeep(this.isEditData)
             this.fetchEditAccount(this.data)

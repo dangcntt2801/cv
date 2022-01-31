@@ -32,13 +32,15 @@ export default {
         })
     },
 
-    // routerReplace: function(data) {
-    //     this.plugins.router.replace.call(router, data);
-    // },
+    routerReplace: function(data) {
+        this.plugins.router.replace.call(this.router, data);
+    },
 
     routerGo: function(data) {
         var router = this.plugins.router;
 
-        (router.push || router.go).call(router, data).catch(function() {});
+        (router.push || router.go).call(router, data).catch(function(e) {
+            console.log(e)
+        });
     }
 };

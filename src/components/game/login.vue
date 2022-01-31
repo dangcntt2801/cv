@@ -67,7 +67,9 @@
 	</div>
 </template>
 <script>
-    // import axios from 'axios';
+    import qs from 'qs'
+    // import axios from "axios";
+    // import axiosInstanct from "../../store/interceptors";
     import {reactive } from 'vue';
     // import {onMounted} from 'vue';
     // import {useStore } from 'vuex';
@@ -84,44 +86,42 @@
             const mode = 'sign_in'  
             const state = reactive({
                 form: {
-                    body: {
+                    body: qs.stringify({
                         msisdn: 'lehonghaibndc',
                         password: '123456',
-                    },
-                    remember: false,
-                    fetchUser: true,
+                    }),
+                    remember: true,
+                    fetchUser: false,
                     staySignedIn: false,
                     errors: {}
                 }
             });
-            // const form = {
-            //     msisdn: 'lehonghaibndc',
-            //     password: '123456',
-            // }
+
 
             function errors(res) {
                 state.form.errors = Object.fromEntries(res.data.errors.map(item => [item.field, item.msg]));
             }
 
             async function login() {
-                  // eslint-disable-next-line no-debugger
-                debugger
-                // eslint-disable-next-line no-unused-vars
-                // let fetchCard = await axios.post(`http://35.240.246.176/be/user/login-api` , form)
-                // eslint-disable-next-line no-debugger
-                debugger
+            //     let add = await axiosInstanct
+            //     .post(`http://api.hdnft.online/?url=user/user-api&action=add`, qs.stringify({
+            //     account: 'happyland2',
+            //     password: '123456',
+            //     type: 'happyland',
+            //     expire_time: '1641969998',
+            // }))
+
                 auth.login({
                     data: state.form.body,
                     remember: state.form.remember ? '{"name": "Default"}' : null,
                     fetchUser: state.form.fetchUser,
                     staySignedIn: state.form.staySignedIn,
-                    redirect: '/'
+                    redirect: '/admin/happyland'
                 })
                 .then(null, (res) => {
                     errors(res.response);
                 });
             }
-
 
             return {
                 mode,

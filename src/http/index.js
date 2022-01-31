@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://35.240.246.176/be/user';
+axios.defaults.baseURL = 'http://api.hdnft.online/be?url=user';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 export default (app) => {
     app.axios = axios;
