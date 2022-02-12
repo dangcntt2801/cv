@@ -116,7 +116,7 @@
                     />
                   </td>
                   <td>{{ user.account }}</td>
-                  <td>{{ user.expire_time }}</td>
+                  <td>{{ formatDate(user.expire_time)  }}</td>
                   <td>{{ user.type }}</td>
                   <td><button type="button" class="btn btn-primary" @click='actionPlayGame(user.account)'>Play Game</button></td>
                   <td>{{this.sttName[user.account]}}</td>
@@ -139,6 +139,7 @@
 </template>
  
 <script>
+import moment from 'moment'
 import Table from "../../store/modules/table";
 import TableDataLength from "../common/TableDataLength.vue";
 // import Pagination from "../common/Pagination";
@@ -199,6 +200,11 @@ export default {
       fetchSetDataEditAccount: 'happyland/SET_DATA_EDIT_ACCOUNT',
       fetchSetAlert: 'alert/SETMALERT'
     }),
+    formatDate(val) {
+        if (val) {
+            return moment((val*1000)).format('MM/DD/YYYY hh:mm')
+        }
+    },
     actionAdd() {
         this.formAccount = {
             account: '',
@@ -212,31 +218,26 @@ export default {
         this.formAccount = {
             ...dataAccount
         }
-        // eslint-disable-next-line no-debugger
-        debugger
     },
     async actionPlayGame(account) {
         let playgame = await this.fetchActionPlayGame(account)
         this.fetchSetAlert(playgame)
     },
     async actionDelete() {
-        // eslint-disable-next-line no-debugger
-        debugger
         if(this.userSelect.length == 0) {
             alert("vui lòng chọn account để xoá ")
         } else {
-            for(var i = 0 ; i < this.userSelect.length ;i++) {
-                let dataAccount = this.all[i]
-                let rsAction = await this.fetchActionDeleteAccountGame({
-                    type: dataAccount.type,
-                    account: dataAccount.account
-                })
-                // eslint-disable-next-line no-debugger
-                debugger
-                this.fetchSetAlert(rsAction)
-                this.fetchActionAllAccount()
+            if(confirm("Bạn có thật sự muốn xoá?")){
+                    for(var i = 0 ; i < this.userSelect.length ;i++) {
+                    let dataAccount = this.all[i]
+                    let rsAction = await this.fetchActionDeleteAccountGame({
+                        type: dataAccount.type,
+                        account: dataAccount.account
+                    })
+                    this.fetchSetAlert(rsAction)
+                    this.fetchActionAllAccount()
+                }
             }
-            
         }
     },
     changeLimit(value) {
