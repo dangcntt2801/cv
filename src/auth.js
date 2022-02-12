@@ -559,7 +559,6 @@ Auth.prototype.login = function(data) {
         __auth.drivers.http.http
             .call(__auth, data)
             .then(function(res) {
-                localStorage.setItem('token', res.data.data.token);
                 if (
                     data.fetchUser ||
                     (data.fetchUser === undefined && __auth.options.fetchData.enabled)

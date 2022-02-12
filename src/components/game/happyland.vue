@@ -3,8 +3,8 @@
     <div class="happyland-left">
         <Alert />
         <div class="group-btn">
-          <button type="button" class="btn btn-success" @click="actionAdd"><i class="fas fa-plus"></i>Add</button>
-          <button type="button" class="btn btn-danger"><i class="fas fa-minus"></i>Delete</button>
+          <button type="button" class="btn btn-success" @click="actionAdd()"><i class="fas fa-plus"></i>Add</button>
+          <button type="button" class="btn btn-danger" @click="actionDelete()"><i class="fas fa-minus"></i>Delete</button>
         </div>
         <h3>Account</h3>
         <TableDataLength :limit="limit" @limit="changeLimit"></TableDataLength>
@@ -22,7 +22,7 @@
                       />
                   </th>
                   <th class="w90">
-                    管理者<a
+                    account<a
                       v-on:click="sortBy('level')"
                       :class="getSorticon('level')"
                     >
@@ -38,7 +38,7 @@
                     </a>
                   </th>
                   <th class="w200">
-                    姓
+                    time
                     <a
                       v-on:click="sortBy('lastname')"
                       :class="getSorticon('lastname')"
@@ -55,7 +55,7 @@
                     </a>
                   </th>
                   <th class="w200">
-                    名<a
+                    tên game<a
                       v-on:click="sortBy('firstname')"
                       :class="getSorticon('firstname')"
                     >
@@ -71,7 +71,7 @@
                     </a>
                   </th>
                   <th class="w400">
-                    メールアドレス<a
+                    action<a
                       v-on:click="sortBy('email')"
                       :class="getSorticon('email')"
                     >
@@ -87,7 +87,7 @@
                     </a>
                   </th>
                   <th class="w300">
-                    電話番号<a
+                    status<a
                       v-on:click="sortBy('phone')"
                       :class="getSorticon('phone')"
                     >
@@ -111,7 +111,7 @@
                     <input
                       class="checkbox"
                       type="checkbox"
-                      :value="user.id"
+                      :value="index"
                       v-model="userSelect"
                     />
                   </td>
@@ -120,7 +120,7 @@
                   <td>{{ user.type }}</td>
                   <td><button type="button" class="btn btn-primary" @click='actionPlayGame(user.account)'>Play Game</button></td>
                   <td>{{this.sttName[user.account]}}</td>
-                  <td><button type="button" class="btn btn-primary" @click='actionEdit(index)'>Edit</button></td>
+                  <td><button type="button" class="btn btn-primary" @click='actionEdit(index)'>ChangePassWord</button></td>
                 </tr>
               </tbody>
               <tbody v-else>
@@ -133,7 +133,7 @@
           
     </div>
     <div class="happyland-right">
-        <formAccount />
+        <formAccount :formAccount="formAccount"/>
     </div>
   </div>
 </template>
@@ -162,7 +162,12 @@ export default {
             firebaseData:[],
             limit:10,
             pagination: {},
-            sttName: {}
+            sttName: {},
+            userSelect: [],
+            formAccount: {
+                account: '',
+                password: ''
+            }
         }
     },
     created() {
@@ -186,7 +191,8 @@ export default {
   methods: {
     ...mapActions({
       fetchActionAllAccount: 'happyland/all',
-      fetchActionPlayGame: 'happyland/playgame'
+      fetchActionPlayGame: 'happyland/playgame',
+      fetchActionDeleteAccountGame: 'happyland/delete'
     }),
     ...mapMutations({
       fetchSetmode: 'happyland/SETMODE',
@@ -194,17 +200,44 @@ export default {
       fetchSetAlert: 'alert/SETMALERT'
     }),
     actionAdd() {
+        this.formAccount = {
+            account: '',
+            password: ''
+        }
         this.fetchSetmode('add')
     },
     actionEdit(index) {
         this.fetchSetmode('edit')
-        this.fetchSetDataEditAccount(index)
+        let dataAccount = this.all[index]
+        this.formAccount = {
+            ...dataAccount
+        }
+        // eslint-disable-next-line no-debugger
+        debugger
     },
     async actionPlayGame(account) {
         let playgame = await this.fetchActionPlayGame(account)
         this.fetchSetAlert(playgame)
     },
-    actionDelete() {
+    async actionDelete() {
+        // eslint-disable-next-line no-debugger
+        debugger
+        if(this.userSelect.length == 0) {
+            alert("vui lòng chọn account để xoá ")
+        } else {
+            for(var i = 0 ; i < this.userSelect.length ;i++) {
+                let dataAccount = this.all[i]
+                let rsAction = await this.fetchActionDeleteAccountGame({
+                    type: dataAccount.type,
+                    account: dataAccount.account
+                })
+                // eslint-disable-next-line no-debugger
+                debugger
+                this.fetchSetAlert(rsAction)
+                this.fetchActionAllAccount()
+            }
+            
+        }
     },
     changeLimit(value) {
       // eslint-disable-next-line no-unused-vars

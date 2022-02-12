@@ -8,11 +8,11 @@
                 <div class="form">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input v-model="email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <input v-model="state_login.email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input v-model="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input v-model="state_login.password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                   </div>
                   <div class="form-group form-check" style="display:flex;align-items:center;justify-content:space-between">
                     <span >
@@ -70,7 +70,7 @@
     import qs from 'qs'
     // import axios from "axios";
     // import axiosInstanct from "../../store/interceptors";
-    import {reactive } from 'vue';
+    import { reactive  } from 'vue';
     // import {onMounted} from 'vue';
     // import {useStore } from 'vuex';
     // import {useRouter} from 'vue-router';
@@ -79,6 +79,10 @@
 		name: 'P101Login',
         setup() {
             const auth        = useAuth();
+            const state_login = reactive({
+                email : 'lehonghaibndc',
+                password : '123456'
+            })
             // const store    = useStore();
             // const router   = useRouter();
             // const authComp = useAuthComp();
@@ -87,8 +91,8 @@
             const state = reactive({
                 form: {
                     body: qs.stringify({
-                        msisdn: 'lehonghaibndc',
-                        password: '123456',
+                        msisdn: state_login.email,
+                        password: state_login.password,
                     }),
                     remember: true,
                     fetchUser: false,
@@ -103,14 +107,6 @@
             }
 
             async function login() {
-            //     let add = await axiosInstanct
-            //     .post(`http://api.hdnft.online/?url=user/user-api&action=add`, qs.stringify({
-            //     account: 'happyland2',
-            //     password: '123456',
-            //     type: 'happyland',
-            //     expire_time: '1641969998',
-            // }))
-
                 auth.login({
                     data: state.form.body,
                     remember: state.form.remember ? '{"name": "Default"}' : null,
@@ -124,6 +120,7 @@
             }
 
             return {
+                state_login,
                 mode,
                 login
             }

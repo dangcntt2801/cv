@@ -2,18 +2,14 @@
   <div class="form-account">
     <div class="group-btn">
         <div style="display:flex;justify-content: flex-end;">
-            <button type="button" class="btn btn-success" @click="actionSubmit"><i class="fas fa-plus"></i>{{mode == 'add' ? 'Add' : 'Edit'}}</button>
+            <button type="button" class="btn btn-success" @click="actionSubmit"><i class="fas fa-plus"></i>{{mode == 'add' ? 'Add' : 'ChangePassWord'}}</button>
             <button type="button" class="btn btn-secondary" @click="actionCancel">Cancel</button>
         </div>
     </div>
     <div class="mb-3">
       <label for="" class="form-label">Email</label>
-      <input type="email" class="form-control"  placeholder="name@example.com" v-model="data.account">
+      <input type="email" class="form-control" :disabled="mode != 'add'" placeholder="name@example.com" v-model="data.account">
     </div>
-    <!-- <div class="mb-3">
-      <label for="" class="form-label">Public key</label>
-      <input type="text" class="form-control" v-model="isEditData.key">
-    </div> -->
     <div class="mb-3">
       <label for="" class="form-label">Pass</label>
       <input type="password" class="form-control" v-model="data.password">
@@ -25,22 +21,26 @@
 
 
 import { mapState, mapMutations, mapActions} from 'vuex'
-import cloneDeep from "clone-deep";
 export default {
-  mounted(){
+  name:"formAccount",
+  props: {
+    formAccount: Object
   },
-  data: function() {
+    data: function() {
         return {
-            data:{}
+            data: {}
         }
     },
+  mounted(){
+  },
   computed: {
     ...mapState("happyland", ["mode","isEditData"])
   },
   methods: {
     ...mapActions({
       fetchActionAddAccount: 'happyland/add',
-      fetchActionGetAllAccount: 'happyland/all'
+      fetchActionGetAllAccount: 'happyland/all',
+      fetchActionChangePassWord: 'happyland/changePassWord'
     }),
     ...mapMutations({
       fetchSetmode: 'happyland/SETMODE',
@@ -54,8 +54,8 @@ export default {
             this.fetchSetmode('list')
             this.fetchActionGetAllAccount()
         } else {
-            this.data = cloneDeep(this.isEditData)
-            this.fetchEditAccount(this.data)
+            let actionEdit = await this.fetchActionChangePassWord(this.formAccount)
+            this.fetchSetAlert(actionEdit)
             this.fetchSetmode('list')
         }
     },
@@ -67,6 +67,13 @@ export default {
   },
   created () {
 
+  },
+  watch: {
+    formAccount: {
+      handler() {
+        this.data = this.formAccount;
+    },
+  },
   }
 }
 </script>

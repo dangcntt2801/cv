@@ -63,16 +63,76 @@
                     type: 'happyland',
                     expire_time: '1641969998',
                 }))
-                if (addAccount.status == 200) {
+                if (addAccount.data.status == 1) {
                     return {
                         type: 'success',
                         msg: addAccount.data.data,
                         control: true
                     }
                 } else {
+                    let msg = addAccount.data.message.map((val) => {
+                        return val
+                    })
                     return {
                         type: 'error',
+                        msg: msg,
+                        control: true
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        // eslint-disable-next-line no-unused-vars
+        async delete({ dispatch, commit }, params) {
+            try {
+                // eslint-disable-next-line no-unused-vars
+                let addAccount = await axiosInstanct.post(`http://api.hdnft.online/?url=user/user-api&action=removeAccountGame`, qs.stringify({
+                    type: params.type,
+                    account: params.account
+                }))
+                if (addAccount.data.status == 1) {
+                    return {
+                        type: 'success',
                         msg: addAccount.data.data,
+                        control: true
+                    }
+                } else {
+                    let msg = addAccount.data.message.map((val) => {
+                        return val
+                    })
+                    return {
+                        type: 'error',
+                        msg: msg,
+                        control: true
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        // eslint-disable-next-line no-unused-vars
+        async changePassWord({ dispatch, commit }, params) {
+            try {
+                // eslint-disable-next-line no-unused-vars
+                let addAccount = await axiosInstanct.post(`http://api.hdnft.online/?url=user/user-api&action=updateAccountPassword`, qs.stringify({
+                    type: 'happyland',
+                    account: params.account,
+                    password: params.password
+                }))
+                if (addAccount.data.status == 1) {
+                    return {
+                        type: 'success',
+                        msg: addAccount.data.data,
+                        control: true
+                    }
+                } else {
+                    let msg = addAccount.data.message.map((val) => {
+                        return val
+                    })
+                    return {
+                        type: 'error',
+                        msg: msg,
                         control: true
                     }
                 }
