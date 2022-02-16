@@ -19,6 +19,9 @@ const mutations = {
         state.typeAlert.control = value.control
         state.typeAlert.msg = value.msg
     },
+    SETCONTROL(state, value) {
+        state.typeAlert.control = value
+    }
 }
 
 export default {

@@ -2,7 +2,7 @@
   <div id="happyland" :class="mode == 'list' ? '' : 'active'">
     <div class="happyland-left">
         <Alert />
-        <h2>Số tiền đang có:</h2>
+        <h2>Số tiền đang có: {{myAccount.value}}$</h2>
         <h3>Lịch sử Nạp tiền</h3>
         <TableDataLength :limit="limit" @limit="changeLimit"></TableDataLength>
         <div class="account-table">
@@ -120,6 +120,7 @@ import Table from "../../store/modules/table";
 import Alert from "../common/alert";
 import TableDataLength from "../common/TableDataLength.vue";
 import { mapState, mapMutations, mapActions} from 'vuex'
+import axiosInstanct from "../../store/interceptors";
 export default {
   name: 'about',
   mixins: [Table],
@@ -131,19 +132,11 @@ export default {
   },
   data: function() {
         return {
-            moneyPurcharse: {
-                25:100,
-                50:100,
-                100:100,
-                150:100
-            },
-            money1:0,
-            money2:0,
-            money3:0
         }
     },
     created() {
         this.fetchActionAllTransition()
+        this.fetchActionMyAccount()
     },
           mounted(){
               this.pagination = {
@@ -157,10 +150,12 @@ export default {
   },
   computed: {
     ...mapState("happyland", ["allTransition"]),
+    ...mapState("accountHappyland", ["myAccount"]),
   },
   methods: {
     ...mapActions({
       fetchActionAllTransition: 'happyland/allTransition',
+      fetchActionMyAccount: 'accountHappyland/myAccount',
     }),
     formatDate(val) {
         if (val) {
@@ -190,7 +185,7 @@ export default {
                 break;
         }
         this.money3 = parseInt(value) + this.money2 + '$'
-    }
+    },
   },
 
 }

@@ -34,7 +34,7 @@ var __defaultOptions = {
     loginData: { url: 'login-api', method: 'POST', redirect: '/', fetchUser: true, staySignedIn: true },
     // loginData: { url: 'auth/login', method: 'POST', redirect: '/', fetchUser: true, staySignedIn: true },
     logoutData: { url: 'auth/logout', method: 'POST', redirect: '/', makeRequest: false },
-    fetchData: { url: 'auth/user', method: 'GET', enabled: false },
+    fetchData: { url: 'user-api&action=getUserSystem', method: 'GET', enabled: true },
     refreshData: { url: 'auth/refresh', method: 'GET', enabled: false, interval: 30 },
     impersonateData: { url: 'auth/impersonate', method: 'POST', redirect: '/', fetchUser: true },
     unimpersonateData: { url: 'auth/unimpersonate', method: 'POST', redirect: '/admin', fetchUser: true, makeRequest: false },

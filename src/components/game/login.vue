@@ -75,6 +75,7 @@
     // import {useStore } from 'vuex';
     // import {useRouter} from 'vue-router';
     import { useAuth } from '../../v3.js';
+    import { mapState, mapMutations, mapActions} from 'vuex'
 	export default {
 		name: 'P101Login',
         setup() {
@@ -94,8 +95,8 @@
                         msisdn: state_login.email,
                         password: state_login.password,
                     }),
-                    remember: true,
-                    fetchUser: false,
+                    remember: false,
+                    fetchUser: true,
                     staySignedIn: false,
                     errors: {}
                 }
@@ -112,9 +113,10 @@
                     remember: state.form.remember ? '{"name": "Default"}' : null,
                     fetchUser: state.form.fetchUser,
                     staySignedIn: state.form.staySignedIn,
-                    redirect: '/admin/happyland'
+                    redirect: '/admin/about'
                 })
                 .then(null, (res) => {
+                    this.fetchActionMyAccount()
                     errors(res.response);
                 });
             }
@@ -130,7 +132,9 @@
 	
 		},
 		methods: {
-		
+            ...mapActions({
+              fetchActionMyAccount: 'accountHappyland/myAccount',
+            }),
 		}
 	}
 

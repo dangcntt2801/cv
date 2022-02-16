@@ -3,13 +3,15 @@ import common from './modules/common'
 import account from './modules/account'
 import alert from './modules/alert'
 import happyland from './modules/happyland/happyland'
+import accountHappyland from './modules/happyland/accountHappyland'
 
 const store = createStore({
     modules: {
         common,
         account,
         happyland,
-        alert
+        alert,
+        accountHappyland
     },
     state: {
         name: "Vue"

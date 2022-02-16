@@ -1,17 +1,17 @@
 
 <template>
-<swiper :slidesPerView="4" :spaceBetween="30" :slidesPerGroup="1" :loop="true" :loopFillGroupWithBlank="true" 
+<swiper :slidesPerView="3" :spaceBetween="30" :slidesPerGroup="1" :loop="true" :loopFillGroupWithBlank="true" 
 :navigation="false" class="mySwiper">
   <swiper-slide>  
       <div class="content">
-        <img src="/img/liveauitemimg.png" alt="">
+        <img src="/img/happy-land.jpeg" alt="">
         <div class="content-text">
             <h5>Happy Land</h5>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            <p>Game nông trại của người Việt</p>
         </div>
       </div>
   </swiper-slide>
-  <swiper-slide>  
+  <!-- <swiper-slide>  
       <div class="content">
         <img src="/img/liveauitemimg.png" alt="">
         <div class="content-text">
@@ -46,7 +46,7 @@
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
         </div>
       </div>
-  </swiper-slide>
+  </swiper-slide> -->
   
   </swiper>
 </template>

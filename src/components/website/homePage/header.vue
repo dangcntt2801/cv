@@ -2,11 +2,11 @@
    <div class="header">
        <img src="/img/cryptonlogo.svg" alt="">
        <div class="right">
-        <div class="menu">
+        <!-- <div class="menu">
             <a href="">Home</a>
             <a href="">Infor</a>
             <a href="">Contact</a>
-        </div>
+        </div> -->
         <router-link
           to="/login"
         >

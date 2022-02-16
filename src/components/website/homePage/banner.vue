@@ -6,8 +6,8 @@
            <div class="banner-img3"><img src="/img/bannerimg03.png" alt=""></div>
        </div>
        <div class="right">
-           <h2>Discover, collect, and sell <span style="color:#019DEA">extraordinary NFTs</span></h2>
-           <h4 style="color: #B1BBD4;">on the world's first & largest NFT marketplace</h4>
+           <h2>Chuyên Viết BOT,Cho Thuê BOT <span style="color:#019DEA">Các Game NFTs</span></h2>
+           <h4 style="color: #B1BBD4;">Liên hệ xxxxx</h4>
        </div>
    </div>
 </template>

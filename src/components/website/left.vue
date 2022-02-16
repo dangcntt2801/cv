@@ -2,8 +2,8 @@
   <div id="left" :class="isExpand == true ? 'zoom-out' : ''">
       <div class="avatar">
           <img src="/img/avatar.jpeg" alt="">
-          <div class="name">Brian Hughes</div>
-          <div class="email">hughes.brian@company.com</div>
+          <div class="name">{{myAccount.msisdn}}</div>
+          <div class="email">{{myAccount.phone}}</div>
       </div>
       <div class="menu">
           <div class="navigation dashboard">
@@ -13,13 +13,16 @@
               </div>
               <div class="navigation-box">
                   <router-link :to="{ name: 'about'}">
-                    <div class="navigation-item active">
+                    <div class="navigation-item"
+                    :class="currentRouteName == 'about' ? 'active' :''"
+                    >
                         <i class="fas fa-user"></i>
                         <span>Thông tin cá nhân</span>
                     </div>
                   </router-link>
                   <router-link :to="{ name: 'recharge'}">
-                    <div class="navigation-item">
+                    <div class="navigation-item"
+                    :class="currentRouteName == 'recharge' ? 'active' :''">
                         <i class="fas fa-user"></i>
                         <span>Nạp tiền</span>
                     </div>
@@ -37,12 +40,12 @@
               </div>
               <div class="navigation-box">
                   <router-link :to="{ name: 'happyland'}">
-                    <div class="navigation-item">
+                    <div class="navigation-item"
+                    :class="currentRouteName == 'happyland' ? 'active' :''">
                        <i class="fas fa-user"></i>
                        <span>Happy Lands</span>
                     </div>
                   </router-link>
-   
                     <!-- <div class="navigation-item">
                         <i class="fas fa-user"></i>
                         <span>Spinter lands</span>
@@ -64,12 +67,14 @@ export default {
   name: 'left',
   data () {
     return {
-       
     }
   },
   computed: {
-    ...mapState("common", ["isExpand"]
-    )
+    ...mapState("common", ["isExpand"]),
+    ...mapState("accountHappyland", ["myAccount"]),
+    currentRouteName() {
+        return this.$route.name;
+    }
   },
   methods: {
 
