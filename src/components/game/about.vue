@@ -218,5 +218,6 @@ export default {
     .active .happyland-right {
         width: 49%;
         box-shadow: 4px 3px 10px 2px #ced4da;
+        z-index: 999;
     }
 </style>

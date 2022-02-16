@@ -116,7 +116,6 @@
                     redirect: '/admin/about'
                 })
                 .then(null, (res) => {
-                    this.fetchActionMyAccount()
                     errors(res.response);
                 });
             }
@@ -132,9 +131,6 @@
 	
 		},
 		methods: {
-            ...mapActions({
-              fetchActionMyAccount: 'accountHappyland/myAccount',
-            }),
 		}
 	}
 

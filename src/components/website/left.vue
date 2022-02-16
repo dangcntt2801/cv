@@ -56,15 +56,42 @@
                     </div> -->
               </div>
           </div>
-          <div class="navigation gameapplication"></div>
+          <div class="navigation game">
+              <div class="navigation-box">
+                    <div class="navigation-item" @click="logoutThen">
+                       <i class="fas fa-user"></i>
+                       <span style="color:#fff" >Log Out</span>
+                    </div>
+              </div>
+          </div>
+      
       </div>
+
   </div>
 </template>
 
 <script>
 import { mapState} from 'vuex'
+import {useRouter} from 'vue-router';
+import { useAuth } from '../../v3';
 export default {
   name: 'left',
+  setup() {
+        const auth     = useAuth();
+        const router   = useRouter();
+        function logoutThen() {
+            auth
+                .logout({
+                    redirect: null
+                })
+                .then(() => {
+                    router.push({name: 'Home'});
+                });
+        }
+        return {
+                logoutThen,
+            }
+  },
   data () {
     return {
     }
@@ -77,7 +104,7 @@ export default {
     }
   },
   methods: {
-
+ 
   },
 }
 </script>
