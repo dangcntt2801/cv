@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import login from '@/components/game/login'
 import index from '@/components/website/index'
 import happyland from '@/components/game/happyland'
+import recharge from '@/components/game/recharge'
+import about from '@/components/game/about'
 import home_page from '@/components/website/homePage/home_page'
 
 const routes = [{
@@ -19,14 +21,25 @@ const routes = [{
         path: '/admin',
         name: 'admin',
         component: index,
-        // meta: {
-        //     auth: true
-        // },
+        meta: {
+            auth: true
+        },
         children: [{
-            path: 'happyland',
-            name: 'happyland',
-            component: happyland
-        }]
+                path: 'happyland',
+                name: 'happyland',
+                component: happyland
+            },
+            {
+                path: 'recharge',
+                name: 'recharge',
+                component: recharge
+            },
+            {
+                path: 'about',
+                name: 'about',
+                component: about
+            },
+        ]
     },
 ]
 
@@ -34,7 +47,6 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
-
 export default (app) => {
     app.router = router;
 

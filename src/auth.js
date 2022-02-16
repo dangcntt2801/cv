@@ -31,10 +31,11 @@ var __defaultOptions = {
     // Http
 
     registerData: { url: 'auth/register', method: 'POST', redirect: '/login', autoLogin: false },
-    loginData: { url: '/login-api', method: 'POST', redirect: '/', fetchUser: true, staySignedIn: true },
+    loginData: { url: 'login-api', method: 'POST', redirect: '/', fetchUser: true, staySignedIn: true },
+    // loginData: { url: 'auth/login', method: 'POST', redirect: '/', fetchUser: true, staySignedIn: true },
     logoutData: { url: 'auth/logout', method: 'POST', redirect: '/', makeRequest: false },
-    fetchData: { url: 'auth/user', method: 'GET', enabled: true },
-    refreshData: { url: 'auth/refresh', method: 'GET', enabled: true, interval: 30 },
+    fetchData: { url: 'auth/user', method: 'GET', enabled: false },
+    refreshData: { url: 'auth/refresh', method: 'GET', enabled: false, interval: 30 },
     impersonateData: { url: 'auth/impersonate', method: 'POST', redirect: '/', fetchUser: true },
     unimpersonateData: { url: 'auth/unimpersonate', method: 'POST', redirect: '/admin', fetchUser: true, makeRequest: false },
     oauth2Data: { url: 'auth/social', method: 'POST', redirect: '/', fetchUser: true },
@@ -119,8 +120,6 @@ function _setStaySignedIn(staySignedIn) {
 
 function _setRemember(val) {
     if (val) {
-        // eslint-disable-next-line no-debugger
-        debugger
         __token.set.call(__auth, __auth.options.rememberKey, val, false);
         __auth.$vm.state.remember = val;
     } else {
@@ -543,7 +542,7 @@ Auth.prototype.register = function(data) {
                 } else {
                     resolve(res);
 
-                    _processRedirect(registerData.redirect);
+                    //_processRedirect(registerData.redirect);
                 }
             }, reject);
     });
@@ -551,11 +550,10 @@ Auth.prototype.register = function(data) {
 
 Auth.prototype.login = function(data) {
     data = __utils.extend(__auth.options.loginData, data);
-    // eslint-disable-next-line no-debugger
-    debugger
     _setRemember(data.remember);
     _setStaySignedIn(data.staySignedIn);
     return new Promise(function(resolve, reject) {
+
         __auth.drivers.http.http
             .call(__auth, data)
             .then(function(res) {
@@ -571,7 +569,7 @@ Auth.prototype.login = function(data) {
                 } else {
                     _processFetch(_parseUserResponseData(res), data.redirect);
 
-                    resolve(res);
+                    // resolve(res);
                 }
 
             }, function(res) {
@@ -641,7 +639,7 @@ Auth.prototype.impersonate = function(data) {
                         })
                         .then(resolve, reject);
                 } else {
-                    _processRedirect(data.redirect);
+                    //_processRedirect(data.redirect);
 
                     resolve(res);
                 }
@@ -675,7 +673,7 @@ Auth.prototype.unimpersonate = function(data) {
                         })
                         .then(resolve, reject);
                 } else {
-                    _processRedirect(data.redirect);
+                    //_processRedirect(data.redirect);
 
                     resolve();
                 }
@@ -730,6 +728,7 @@ Auth.prototype.enableImpersonate = function() {
 
 Auth.prototype.disableImpersonate = function() {
     if (__auth.impersonating()) {
+
         __auth.currentToken = __auth.options.tokenDefaultKey;
     }
 };

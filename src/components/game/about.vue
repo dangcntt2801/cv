@@ -2,11 +2,8 @@
   <div id="happyland" :class="mode == 'list' ? '' : 'active'">
     <div class="happyland-left">
         <Alert />
-        <div class="group-btn">
-          <button type="button" class="btn btn-success" @click="actionAdd()"><i class="fas fa-plus"></i>Add</button>
-          <button type="button" class="btn btn-danger" @click="actionDelete()"><i class="fas fa-minus"></i>Delete</button>
-        </div>
-        <h3>Account</h3>
+        <h2>Số tiền đang có:</h2>
+        <h3>Lịch sử Nạp tiền</h3>
         <TableDataLength :limit="limit" @limit="changeLimit"></TableDataLength>
         <div class="account-table">
           <div class="width_max">
@@ -14,15 +11,15 @@
               <thead class="sticky">
                 <tr>
                   <th class="w40">
-                  <input
+                  <!-- <input
                         class="checkbox select crsr_pr"
                         type="checkbox"
                         @click="toggleSelect($event)"
                 :checked="selectAll"
-                      />
+                      /> -->
                   </th>
                   <th class="w90">
-                    account<a
+                    Mã giao dịch<a
                       v-on:click="sortBy('level')"
                       :class="getSorticon('level')"
                     >
@@ -38,7 +35,7 @@
                     </a>
                   </th>
                   <th class="w200">
-                    time
+                    Ngày tạo giao dịch
                     <a
                       v-on:click="sortBy('lastname')"
                       :class="getSorticon('lastname')"
@@ -55,7 +52,7 @@
                     </a>
                   </th>
                   <th class="w200">
-                    tên game<a
+                    Số tiền nạp $<a
                       v-on:click="sortBy('firstname')"
                       :class="getSorticon('firstname')"
                     >
@@ -71,7 +68,7 @@
                     </a>
                   </th>
                   <th class="w400">
-                    action<a
+                    Trạng thái<a
                       v-on:click="sortBy('email')"
                       :class="getSorticon('email')"
                     >
@@ -86,41 +83,18 @@
                       </template>
                     </a>
                   </th>
-                  <th class="w300">
-                    status<a
-                      v-on:click="sortBy('phone')"
-                      :class="getSorticon('phone')"
-                    >
-                      <template v-if="getSorticon('phone') == 'sorting'">
-                        <i class="fas fa-sort"></i>
-                      </template>
-                      <template v-if="getSorticon('phone') == 'sorting_desc'">
-                        <i class="fas fa-sort-amount-down"></i>
-                      </template>
-                      <template v-if="getSorticon('phone') == 'sorting_asc'">
-                        <i class="fas fa-sort-amount-up"></i>
-                      </template>
-                    </a>
-                  </th>
                 </tr>
               </thead>
-              <tbody v-if="all.length">
-                <tr v-for="(user, index) in all" :key="index">
-                  <div style="display:none">{{status(user.account)}}</div>
+              <tbody v-if="allTransition.length">
+                <tr v-for="(user, index) in allTransition" :key="index">
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ user.code  }}</td>
+                  <td>{{ formatDate(user.time) }}</td>
+                  <td>{{ user.value }}</td>
                   <td>
-                    <input
-                      class="checkbox"
-                      type="checkbox"
-                      :value="index"
-                      v-model="userSelect"
-                    />
+                      <span v-if="user.active == 1" class="badge badge-success">đã xác nhận</span>
+                      <span v-if="user.active == 0" class="badge badge-warning">chưa xác nhận</span>
                   </td>
-                  <td>{{ user.account }}</td>
-                  <td>{{ formatDate(user.expire_time)  }}</td>
-                  <td>{{ user.type }}</td>
-                  <td><button type="button" class="btn btn-primary" @click='actionPlayGame(user.account)'>Play Game</button></td>
-                  <td>{{this.sttName[user.account]}}</td>
-                  <td><button type="button" class="btn btn-primary" @click='actionEdit(index)'>ChangePassWord</button></td>
                 </tr>
               </tbody>
               <tbody v-else>
@@ -129,11 +103,13 @@
             </table>
           </div>
         </div>
-        <!-- <Pagination :pagination="pagination" @changePage="changePage" /> -->
-          
-    </div>
-    <div class="happyland-right">
-        <formAccount :formAccount="formAccount"/>
+        <div class="mt-5 alert alert-success" role="alert" >
+          Vui lòng chuyển tiền úng với mỗi mã giao dịch về số tài khoản xxxxx
+          <br>
+          Nội dung tin nhắn ứng với mã ứng với mã giao dịch
+          <br>
+          Sau khi chuyển xong hãy liên hệ với chúng tôi
+        </div>
     </div>
   </div>
 </template>
@@ -141,39 +117,33 @@
 <script>
 import moment from 'moment'
 import Table from "../../store/modules/table";
-import TableDataLength from "../common/TableDataLength.vue";
-// import Pagination from "../common/Pagination";
 import Alert from "../common/alert";
-import formAccount from './formAccount.vue'
+import TableDataLength from "../common/TableDataLength.vue";
 import { mapState, mapMutations, mapActions} from 'vuex'
-import { db , onSnapshot, doc} from '../../firebase'
-
 export default {
+  name: 'about',
   mixins: [Table],
   components: {
-    TableDataLength,
-    // Pagination,
-    formAccount,
-    Alert
+    Alert,
+    TableDataLength
   },
   setup() {
   },
   data: function() {
         return {
-            firebaseData:[],
-            limit:10,
-            pagination: {},
-            sttName: {},
-            userSelect: [],
-            formAccount: {
-                account: '',
-                password: ''
-            }
+            moneyPurcharse: {
+                25:100,
+                50:100,
+                100:100,
+                150:100
+            },
+            money1:0,
+            money2:0,
+            money3:0
         }
     },
     created() {
-        this.fetchActionAllAccount()
-        this.status('sutu9578')
+        this.fetchActionAllTransition()
     },
           mounted(){
               this.pagination = {
@@ -186,72 +156,40 @@ export default {
             }
   },
   computed: {
-    ...mapState("happyland", ["mode","all"]
-    ),
+    ...mapState("happyland", ["allTransition"]),
   },
   methods: {
     ...mapActions({
-      fetchActionAllAccount: 'happyland/all',
-      fetchActionPlayGame: 'happyland/playgame',
-      fetchActionDeleteAccountGame: 'happyland/delete'
-    }),
-    ...mapMutations({
-      fetchSetmode: 'happyland/SETMODE',
-      fetchSetDataEditAccount: 'happyland/SET_DATA_EDIT_ACCOUNT',
-      fetchSetAlert: 'alert/SETMALERT'
+      fetchActionAllTransition: 'happyland/allTransition',
     }),
     formatDate(val) {
         if (val) {
             return moment((val*1000)).format('MM/DD/YYYY hh:mm')
         }
     },
-    actionAdd() {
-        this.formAccount = {
-            account: '',
-            password: ''
+    onChange(event) {
+        let value = event.target.value
+        switch (value) {
+            case "25":
+                this.money1 = 550
+                this.money2 = 0
+                break;
+            case "50":
+                this.money1 = 1150
+                this.money2 = 5
+                break;
+            case "100":
+                this.money1 = 2300
+                this.money2 = 20
+                break;
+            case "150":
+                this.money1 = 3450
+                this.money2 = 37.5
+                break;
+            default:
+                break;
         }
-        this.fetchSetmode('add')
-    },
-    actionEdit(index) {
-        this.fetchSetmode('edit')
-        let dataAccount = this.all[index]
-        this.formAccount = {
-            ...dataAccount
-        }
-    },
-    async actionPlayGame(account) {
-        let playgame = await this.fetchActionPlayGame(account)
-        this.fetchSetAlert(playgame)
-    },
-    async actionDelete() {
-        if(this.userSelect.length == 0) {
-            alert("vui lòng chọn account để xoá ")
-        } else {
-            if(confirm("Bạn có thật sự muốn xoá?")){
-                    for(var i = 0 ; i < this.userSelect.length ;i++) {
-                    let dataAccount = this.all[i]
-                    let rsAction = await this.fetchActionDeleteAccountGame({
-                        type: dataAccount.type,
-                        account: dataAccount.account
-                    })
-                    this.fetchSetAlert(rsAction)
-                    this.fetchActionAllAccount()
-                }
-            }
-        }
-    },
-    changeLimit(value) {
-      // eslint-disable-next-line no-unused-vars
-      let a  = value;
-    },
-    changePage(page) {
-       // eslint-disable-next-line no-unused-vars
-      let a  = page;
-    },
-    async status(documentName) {
-        await onSnapshot(doc(db, "happyland", documentName), (doc) => {
-            this.sttName[documentName] = doc.data().detail
-        });
+        this.money3 = parseInt(value) + this.money2 + '$'
     }
   },
 
@@ -285,8 +223,5 @@ export default {
     .active .happyland-right {
         width: 49%;
         box-shadow: 4px 3px 10px 2px #ced4da;
-    }
-    .active .happyland-left {
-        width: 50%;
     }
 </style>

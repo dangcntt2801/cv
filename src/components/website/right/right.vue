@@ -2,7 +2,7 @@
   <div id="right" :class="isExpand == true ? 'expand' : ''">
       <header_component />
       <div class="contetnt">
-          <router-view></router-view>
+            <router-view />
       </div>
   </div>
 </template>

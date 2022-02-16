@@ -2,6 +2,7 @@
     import qs from 'qs'
     const state = () => ({
         all: [],
+        allTransition: [],
         isEditData: {
             account: '',
             password: '',
@@ -16,6 +17,9 @@
     const mutations = {
             SETALL(state, value) {
                 state.all = value
+            },
+            SETALLTRANSITION(state, value) {
+                state.allTransition = value
             },
             SETMODE(state, value) {
                 state.mode = value
@@ -164,6 +168,38 @@
                 console.log(error)
             }
         },
+        async recharge({ dispatch, commit }, params) {
+            try {
+                let recharge = await axiosInstanct.post(`http://api.hdnft.online?url=user/wallet-api&action=recharge`, qs.stringify({
+                    value: params
+                }))
+                if (recharge.status == 200) {
+                    return {
+                        type: 'success',
+                        msg: recharge.data.data,
+                        control: true
+                    }
+                } else {
+                    return {
+                        type: 'error',
+                        msg: recharge.data.message,
+                        control: true
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async allTransition({ dispatch, commit }, params) {
+            try {
+                let all = await axiosInstanct.post(`http://api.hdnft.online?url=user/wallet-api&action=history`)
+                if (all.status == 200) {
+                    commit('SETALLTRANSITION', all.data.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
 
     export default {

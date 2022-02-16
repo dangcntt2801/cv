@@ -12,18 +12,22 @@
                   <div> Unique dashboard designs </div>
               </div>
               <div class="navigation-box">
-                  <div class="navigation-item active">
+                  <router-link :to="{ name: 'about'}">
+                    <div class="navigation-item active">
+                        <i class="fas fa-user"></i>
+                        <span>Thông tin cá nhân</span>
+                    </div>
+                  </router-link>
+                  <router-link :to="{ name: 'recharge'}">
+                    <div class="navigation-item">
+                        <i class="fas fa-user"></i>
+                        <span>Nạp tiền</span>
+                    </div>
+                  </router-link>
+                  <!-- <div class="navigation-item">
                       <i class="fas fa-user"></i>
                       <span>Profile</span>
-                  </div>
-                  <div class="navigation-item">
-                      <i class="fas fa-user"></i>
-                      <span>Analytics</span>
-                  </div>
-                  <div class="navigation-item">
-                      <i class="fas fa-user"></i>
-                      <span>Profile</span>
-                  </div>
+                  </div> -->
               </div>
           </div>
           <div class="navigation game">
@@ -32,21 +36,21 @@
                   <div> Unique dashboard designs </div>
               </div>
               <div class="navigation-box">
-                  <router-link to="/happyland">
-                   <div class="navigation-item">
-                      <i class="fas fa-user"></i>
-                      <span>Happy Lands</span>
-                  </div>
+                  <router-link :to="{ name: 'happyland'}">
+                    <div class="navigation-item">
+                       <i class="fas fa-user"></i>
+                       <span>Happy Lands</span>
+                    </div>
                   </router-link>
    
-                  <div class="navigation-item">
-                      <i class="fas fa-user"></i>
-                      <span>Spinter lands</span>
-                  </div>
-                  <div class="navigation-item">
-                      <i class="fas fa-user"></i>
-                      <span>Profile</span>
-                  </div>
+                    <!-- <div class="navigation-item">
+                        <i class="fas fa-user"></i>
+                        <span>Spinter lands</span>
+                    </div>
+                    <div class="navigation-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </div> -->
               </div>
           </div>
           <div class="navigation gameapplication"></div>

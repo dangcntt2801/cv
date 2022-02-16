@@ -1,5 +1,5 @@
-import * as __utils   from './utils.js';
-import * as __cookie  from './cookie.js';
+import * as __utils from './utils.js';
+import * as __cookie from './cookie.js';
 import * as __storage from './storage.js';
 
 function getTokenKey(key) {
@@ -17,9 +17,9 @@ function getTokenKey(key) {
 }
 
 function processToken(action, key, token, expires) {
-    var i   = 0,
-        ts  = this.options.stores,
-        ii  = ts.length,
+    var i = 0,
+        ts = this.options.stores,
+        ii = ts.length,
         args = [getTokenKey.call(this, key)];
 
     if (action === 'set') {
@@ -31,7 +31,7 @@ function processToken(action, key, token, expires) {
         if (typeof(ts[i][action]) === 'function') {
             return ts[i][action].apply(this, args);
         }
-        
+
         if (
             ts[i] === 'storage' &&
             __utils.isLocalStorage() &&

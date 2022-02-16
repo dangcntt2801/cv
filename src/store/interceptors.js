@@ -10,7 +10,7 @@ import axios from 'axios';
 var axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use(function(config) {
-    var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcGkuaGRuZnQub25saW5lIiwiYXVkIjoiaHR0cHM6XC9cL3dvdC52biIsImlhdCI6MTY0NDY0MjU2NSwibmJmIjoxNjQ0NjQyNTY0LCJkYXRhIjp7Im5hbWUiOiJsZWhvbmdoYWlibmRjIiwiaWQiOiIxMiJ9fQ.JtXWJj4keag7W-oGU4XldP2GTMLeYama1anCeF8Tq84"
+    var accessToken = sessionStorage.getItem('auth_token_default')
     config.headers.Authorization = `Bearer ` + accessToken;
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
     return config;
