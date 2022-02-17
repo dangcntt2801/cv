@@ -8,7 +8,21 @@
        </div>
       <div class="group-player">
           <div class="player-list">
-            <div class="player-item">
+            <div class="player-item" v-for="(player,index) in arrPlayer" :key="index">
+                <span>{{index + 1}}</span>
+                <div class="player-img">
+                    <img class="avatar" src="/img/topsellerimg01.png" alt="">
+                    <img class="icon" src="/img/checkicon.svg" alt="">
+                </div>
+                <div class="player-text">
+                    <div class="left">
+                        <p>{{player.msisdn}}</p>
+                        <p><span>Số tiền đã nạp </span> {{player.value}}$</p>
+                    </div>
+                    <!-- <div class="right"><p>+ 69,5%</p></div> -->
+                </div>
+            </div>
+            <!-- <div class="player-item">
                 <span>1</span>
                 <div class="player-img">
                     <img class="avatar" src="/img/topsellerimg01.png" alt="">
@@ -119,21 +133,7 @@
                     </div>
                     <div class="right"><p>+ 69,5%</p></div>
                 </div>
-            </div>
-            <div class="player-item">
-                <span>1</span>
-                <div class="player-img">
-                    <img class="avatar" src="/img/topsellerimg01.png" alt="">
-                    <img class="icon" src="/img/checkicon.svg" alt="">
-                </div>
-                <div class="player-text">
-                    <div class="left">
-                        <p>Metasaurs by Dr. DMT </p>
-                        <p>8 921,77 </p>
-                    </div>
-                    <div class="right"><p>+ 69,5%</p></div>
-                </div>
-            </div>
+            </div> -->
           </div>
         
       </div>
@@ -141,10 +141,22 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { ref, onMounted} from 'vue'
 export default {
   name: 'banner',
   components: {
 
+  },
+  setup() {
+    const arrPlayer = ref([]);
+    onMounted(async () => {
+      const res = await axios.get("http://api.hdnft.online?url=user/user-dashboard-api");
+      arrPlayer.value = res.data.data
+    });
+      return {
+        arrPlayer
+      }
   },
   data () {
     return {

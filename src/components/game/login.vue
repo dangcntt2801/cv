@@ -12,8 +12,9 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input v-model="state_login.password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input v-model="state_login.password" type="password" class="form-control"  placeholder="Password">
                   </div>
+                  <p style="color:red" v-show="error != ''">{{error}}</p>
                   <div class="form-group form-check" style="display:flex;align-items:center;justify-content:space-between">
                     <span >
                         <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -30,15 +31,15 @@
                 <form>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Full Name</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Full Name">
+                    <input v-model="state_register.fullname" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter Full Name">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <input v-model="state_register.email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input v-model="state_register.password" type="password" class="form-control"  placeholder="Password">
                   </div>
                   <div class="form-group form-check" style="display:flex;align-items:center;justify-content:space-between">
                     <span >
@@ -46,7 +47,7 @@
                         <label class="form-check-label" for="exampleCheck1">I agree to theTerms of Service andPrivacy Policy</label>
                     </span>
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                  <button @click="register()" class="btn btn-primary btn-block">Submit</button>
                 </form>
             </div>
             
@@ -67,10 +68,11 @@
 	</div>
 </template>
 <script>
+    import axios from 'axios';
     import qs from 'qs'
     // import axios from "axios";
     // import axiosInstanct from "../../store/interceptors";
-    import { reactive  } from 'vue';
+    import { reactive , ref} from 'vue';
     // import {onMounted} from 'vue';
     // import {useStore } from 'vuex';
     // import {useRouter} from 'vue-router';
@@ -79,10 +81,16 @@
 	export default {
 		name: 'P101Login',
         setup() {
+            const error       = ref('')
             const auth        = useAuth();
             const state_login = reactive({
                 email : 'lehonghaibndc',
                 password : '123456'
+            })
+            const state_register = reactive({
+                fullname: '',
+                email : '',
+                password : ''
             })
             // const store    = useStore();
             // const router   = useRouter();
@@ -91,10 +99,6 @@
             const mode = 'sign_in'  
             const state = reactive({
                 form: {
-                    body: qs.stringify({
-                        msisdn: state_login.email,
-                        password: state_login.password,
-                    }),
                     remember: false,
                     fetchUser: true,
                     staySignedIn: false,
@@ -108,22 +112,33 @@
             }
 
             async function login() {
+                debugger
                 auth.login({
-                    data: state.form.body,
+                    data: qs.stringify({
+                        msisdn: state_login.email,
+                        password: state_login.password,
+                    }),
                     remember: state.form.remember ? '{"name": "Default"}' : null,
                     fetchUser: state.form.fetchUser,
                     staySignedIn: state.form.staySignedIn,
                     redirect: '/admin/about'
                 })
                 .then(null, (res) => {
-                    errors(res.response);
+                    error.value = "Sai tên đăng nhập hoặc mật khẩu";
                 });
             }
-
+            async function register() {
+                debugger
+                let rs = await axios.post('http://api.hdnft.online/be?url=user/signup-api',qs.stringify(state_register))
+                debugger
+            }
             return {
                 state_login,
+                state_register,
                 mode,
-                login
+                login,
+                register,
+                error
             }
 
         },
