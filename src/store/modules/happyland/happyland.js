@@ -168,6 +168,29 @@
                 console.log(error)
             }
         },
+        async stopgame({ dispatch, commit }, params) {
+            try {
+                let playGame = await axiosInstanct.post(`http://api.hdnft.online?url=user/user-api/action-api&action=endGame`, qs.stringify({
+                    type: 'happyland',
+                    account: params,
+                }))
+                if (playGame.status == 200) {
+                    return {
+                        type: 'success',
+                        msg: playGame.data.message,
+                        control: true
+                    }
+                } else {
+                    return {
+                        type: 'error',
+                        msg: playGame.data.message,
+                        control: true
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
         async recharge({ dispatch, commit }, params) {
             try {
                 let recharge = await axiosInstanct.post(`http://api.hdnft.online?url=user/wallet-api&action=recharge`, qs.stringify({

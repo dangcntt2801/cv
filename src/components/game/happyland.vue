@@ -102,6 +102,22 @@
                       </template>
                     </a>
                   </th>
+                   <th class="w300">
+                    Lần cuối cập nhật<a
+                      v-on:click="sortBy('phone')"
+                      :class="getSorticon('phone')"
+                    >
+                      <template v-if="getSorticon('phone') == 'sorting'">
+                        <i class="fas fa-sort"></i>
+                      </template>
+                      <template v-if="getSorticon('phone') == 'sorting_desc'">
+                        <i class="fas fa-sort-amount-down"></i>
+                      </template>
+                      <template v-if="getSorticon('phone') == 'sorting_asc'">
+                        <i class="fas fa-sort-amount-up"></i>
+                      </template>
+                    </a>
+                  </th>
                 </tr>
               </thead>
               <tbody v-if="all.length">
@@ -118,8 +134,10 @@
                   <td>{{ user.account }}</td>
                   <td>{{ formatDate(user.expire_time)  }}</td>
                   <td>{{ user.type }}</td>
-                  <td><button type="button" class="btn btn-primary" @click='actionPlayGame(user.account)'>Play Game</button></td>
+                  <td v-show="user.status == 1"><button type="button" class="btn btn-danger" @click='actionStopGame(user.account)'>Stop Game</button></td>
+                  <td v-show="user.status != 1 "><button type="button" class="btn btn-primary" @click='actionPlayGame(user.account)'>Play Game</button></td>
                   <td>{{this.sttName[user.account]}}</td>
+                  <td>{{formatDate(this.timeStamp[user.account])}}</td>
                   <td><button type="button" class="btn btn-primary" @click='actionEdit(index)'>ChangePassWord</button></td>
                 </tr>
               </tbody>
@@ -164,6 +182,7 @@ export default {
             limit:10,
             pagination: {},
             sttName: {},
+            timeStamp: {},
             userSelect: [],
             formAccount: {
                 account: '',
@@ -193,6 +212,7 @@ export default {
     ...mapActions({
       fetchActionAllAccount: 'happyland/all',
       fetchActionPlayGame: 'happyland/playgame',
+      fetchActionStopGame: 'happyland/stopgame',
       fetchActionDeleteAccountGame: 'happyland/delete'
     }),
     ...mapMutations({
@@ -221,7 +241,26 @@ export default {
     },
     async actionPlayGame(account) {
         let playgame = await this.fetchActionPlayGame(account)
-        this.fetchSetAlert(playgame)
+        if(playgame.type == "success") {
+            this.fetchSetAlert({
+                type: 'success',
+                msg: "Đã start game",
+                control: true
+            })
+            this.fetchActionAllAccount()
+        }
+            
+    },
+    async actionStopGame(account) {
+        let stopGame = await this.fetchActionStopGame(account)  
+        if(stopGame.type == "success") {
+            this.fetchSetAlert({
+                type: 'success',
+                msg: "Đã stop game",
+                control: true
+            })
+             this.fetchActionAllAccount()
+        }
     },
     async actionDelete() {
         if(this.userSelect.length == 0) {
@@ -251,6 +290,7 @@ export default {
     async status(documentName) {
         await onSnapshot(doc(db, "happyland", documentName), (doc) => {
             this.sttName[documentName] = doc.data().detail
+            this.timeStamp[documentName] = doc.data().time.seconds
         });
     }
   },
