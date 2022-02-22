@@ -128,9 +128,7 @@
                 });
             }
             async function register() {
-                debugger
-                let rs = await axios.post('http://api.hdnft.online/be?url=user/signup-api',qs.stringify(state_register))
-                debugger
+                let rs = await axios.post('https://api.hdnft.online/be?url=user/signup-api',qs.stringify(state_register))
             }
             return {
                 state_login,
