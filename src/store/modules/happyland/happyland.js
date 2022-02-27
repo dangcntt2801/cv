@@ -222,6 +222,30 @@
             } catch (error) {
                 console.log(error)
             }
+        },
+        async rent({ dispatch, commit }, params) {
+            try {
+                let rent = await axiosInstanct.post(`http://api.hdnft.online?url=user/user-api&action=upgrade`, qs.stringify({
+                    account: params.account,
+                    type: 'happyland',
+                    day: params.day
+                }))
+                if (rent.status == 200) {
+                    return {
+                        type: 'success',
+                        msg: rent.data.data,
+                        control: true
+                    }
+                } else {
+                    return {
+                        type: 'error',
+                        msg: rent.data.data,
+                        control: true
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 

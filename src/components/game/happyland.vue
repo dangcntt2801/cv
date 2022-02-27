@@ -38,7 +38,7 @@
                     </a>
                   </th>
                   <th class="w200">
-                    time
+                    Thời hạn
                     <a
                       v-on:click="sortBy('lastname')"
                       :class="getSorticon('lastname')"
@@ -50,22 +50,6 @@
                         <i class="fas fa-sort-amount-down"></i>
                       </template>
                       <template v-if="getSorticon('lastname') == 'sorting_asc'">
-                        <i class="fas fa-sort-amount-up"></i>
-                      </template>
-                    </a>
-                  </th>
-                  <th class="w200">
-                    tên game<a
-                      v-on:click="sortBy('firstname')"
-                      :class="getSorticon('firstname')"
-                    >
-                      <template v-if="getSorticon('firstname') == 'sorting'">
-                        <i class="fas fa-sort"></i>
-                      </template>
-                      <template v-if="getSorticon('firstname') == 'sorting_desc'">
-                        <i class="fas fa-sort-amount-down"></i>
-                      </template>
-                      <template v-if="getSorticon('firstname') == 'sorting_asc'">
                         <i class="fas fa-sort-amount-up"></i>
                       </template>
                     </a>
@@ -121,7 +105,7 @@
                 </tr>
               </thead>
               <tbody v-if="all.length">
-                <tr v-for="(user, index) in all" :key="index">
+                <tr v-for="(user, index) in all" :key="index" @click="actionInfor(index)">
                   <div style="display:none">{{status(user.account)}}</div>
                   <td>
                     <input
@@ -133,12 +117,12 @@
                   </td>
                   <td>{{ user.account }}</td>
                   <td>{{ formatDate(user.expire_time)  }}</td>
-                  <td>{{ user.type }}</td>
                   <td v-show="user.status == 1"><button type="button" class="btn btn-danger" @click='actionStopGame(user.account)'>Stop Game</button></td>
                   <td v-show="user.status != 1 "><button type="button" class="btn btn-primary" @click='actionPlayGame(user.account)'>Play Game</button></td>
                   <td>{{this.sttName[user.account]}}</td>
                   <td>{{formatDate(this.timeStamp[user.account])}}</td>
                   <td><button type="button" class="btn btn-primary" @click='actionEdit(index)'>ChangePassWord</button></td>
+                  <td><button type="button" class="btn btn-warning" @click='actionRent(index)'>Gia hạn</button></td>
                 </tr>
               </tbody>
               <tbody v-else>
@@ -148,12 +132,88 @@
           </div>
         </div>
         <!-- <Pagination :pagination="pagination" @changePage="changePage" /> -->
+        <div v-if="flagInfor">
+            <h3>Account Infor</h3>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                    <label for="" class="form-label">UserName</label>
+                    <p>{{accountInfor.username}}</p>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="" class="form-label">Level</label>
+                <p>{{accountInfor.level}}</p>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="" class="form-label">pointExpNow</label>
+                <p>{{accountInfor.pointExpNow}}</p>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="" class="form-label">HPL</label>
+                <p>{{accountInfor.hpl}}</p>
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                    <label for="" class="form-label">HPLDeposit</label>
+                <p>{{accountInfor.hplDeposit}}</p>
+              </div>
+              <div class="form-group col-md-6">
+                    <label for="" class="form-label">HPLReward</label>
+                    <p>{{accountInfor.hplReward}}</p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                       <label for="" class="form-label">HPLRewardClaimed</label>
+              <p>{{accountInfor.hplRewardClaimed}}</p>
+              </div>
+              <div class="form-group col-md-6">
+              <label for="" class="form-label">HPLSpend</label>
+              <p>{{accountInfor.hplSpend}}</p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                    <label for="" class="form-label">HPW</label>
+              <p>{{accountInfor.hpw}}</p>
+              </div>
+              <div class="form-group col-md-6">
+              <label for="" class="form-label">HPWDeposit</label>
+              <p>{{accountInfor.hpwDeposit}}</p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+              <label for="" class="form-label">HPWReward</label>
+              <p>{{accountInfor.hpwReward}}</p>
+              </div>
+              <div class="form-group col-md-6">
+              <label for="" class="form-label">HPWRewardClaimed</label>
+              <p>{{accountInfor.hpwRewardClaimed}}</p>
+              </div>
+            </div>
+                <div class="form-row">
+              <div class="form-group col-md-6">
+              <label for="" class="form-label">HPWSpend</label>
+              <p>{{accountInfor.hpwSpend}}</p>
+              </div>
+            </div>
           
+
+        </div>
+        
     </div>
     <div class="happyland-right">
         <formAccount :formAccount="formAccount"/>
     </div>
+    
   </div>
+  
 </template>
  
 <script>
@@ -183,6 +243,9 @@ export default {
             pagination: {},
             sttName: {},
             timeStamp: {},
+            accountArrInfor: {},
+            accountInfor: {},
+            flagInfor: false,
             userSelect: [],
             formAccount: {
                 account: '',
@@ -239,6 +302,13 @@ export default {
             ...dataAccount
         }
     },
+    actionRent(index) {
+        this.fetchSetmode('rent')
+        let dataAccount = this.all[index]
+        this.formAccount = {
+            ...dataAccount
+        }
+    },
     async actionPlayGame(account) {
         let playgame = await this.fetchActionPlayGame(account)
         if(playgame.type == "success") {
@@ -279,6 +349,15 @@ export default {
             }
         }
     },
+    actionInfor(index) {
+        this.flagInfor = false
+        this.accountInfor = {}
+        let dataAccount = this.all[index]
+        if(  Object.keys(this.accountArrInfor[ dataAccount.account]).length !== 0 ) {
+            this.accountInfor = this.accountArrInfor[ dataAccount.account]
+            this.flagInfor = true
+        } 
+    },
     changeLimit(value) {
       // eslint-disable-next-line no-unused-vars
       let a  = value;
@@ -291,6 +370,7 @@ export default {
         await onSnapshot(doc(db, "happyland", documentName), (doc) => {
             this.sttName[documentName] = doc.data().detail
             this.timeStamp[documentName] = doc.data().time.seconds
+            this.accountArrInfor[documentName] = doc.data().infor
         });
     }
   },
@@ -325,8 +405,17 @@ export default {
     .active .happyland-right {
         width: 49%;
         box-shadow: 4px 3px 10px 2px #ced4da;
+        z-index: 999;
+        background-color: white;
     }
     .active .happyland-left {
         width: 50%;
+    }
+    tr:hover {background-color: coral;}
+    tr {
+        cursor: pointer;
+    }
+    .form-label {
+        font-weight: 700;
     }
 </style>
