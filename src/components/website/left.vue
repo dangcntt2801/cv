@@ -8,8 +8,7 @@
       <div class="menu">
           <div class="navigation dashboard">
               <div class="navigation-title">
-                  <div> Setting </div>
-                  <div> Unique dashboard designs </div>
+                  <div> {{ $t('game.setting') }} </div>
               </div>
               <div class="navigation-box">
                   <router-link :to="{ name: 'about'}">
@@ -17,14 +16,14 @@
                     :class="currentRouteName == 'about' ? 'active' :''"
                     >
                         <i class="fas fa-user"></i>
-                        <span>Thông tin cá nhân</span>
+                        <span>{{ $t('game.infor') }}</span>
                     </div>
                   </router-link>
                   <router-link :to="{ name: 'recharge'}">
                     <div class="navigation-item"
                     :class="currentRouteName == 'recharge' ? 'active' :''">
                         <i class="fas fa-user"></i>
-                        <span>Nạp tiền</span>
+                        <span>{{ $t('game.recharge') }}</span>
                     </div>
                   </router-link>
                   <!-- <div class="navigation-item">
@@ -36,7 +35,6 @@
           <div class="navigation game">
               <div class="navigation-title">
                   <div> Game </div>
-                  <div> Unique dashboard designs </div>
               </div>
               <div class="navigation-box">
                   <router-link :to="{ name: 'happyland'}">
@@ -60,7 +58,7 @@
               <div class="navigation-box">
                     <div class="navigation-item" @click="logoutThen">
                        <i class="fas fa-user"></i>
-                       <span style="color:#fff" >Log Out</span>
+                       <span style="color:#fff" >{{ $t('game.logout') }}</span>
                     </div>
               </div>
           </div>

@@ -2,8 +2,8 @@
   <div id="happyland" :class="mode == 'list' ? '' : 'active'">
     <div class="happyland-left">
         <Alert />
-        <h2>Số tiền đang có: {{myAccount.value}}$</h2>
-        <h3>Lịch sử Nạp tiền</h3>
+        <h2>{{ $t('game.money_have') }}: {{myAccount.value}}$</h2>
+        <h3>{{ $t('game.history_money') }}</h3>
         <TableDataLength :limit="limit" @limit="changeLimit"></TableDataLength>
         <div class="account-table">
           <div class="width_max">
@@ -19,7 +19,7 @@
                       /> -->
                   </th>
                   <th class="w90">
-                    Mã giao dịch<a
+                    {{ $t('game.table.trading_code') }}<a
                       v-on:click="sortBy('level')"
                       :class="getSorticon('level')"
                     >
@@ -35,7 +35,7 @@
                     </a>
                   </th>
                   <th class="w200">
-                    Ngày tạo giao dịch
+                    {{ $t('game.table.day_trading') }}
                     <a
                       v-on:click="sortBy('lastname')"
                       :class="getSorticon('lastname')"
@@ -52,7 +52,7 @@
                     </a>
                   </th>
                   <th class="w200">
-                    Số tiền nạp $<a
+                    {{ $t('game.table.deposit_amount') }} $<a
                       v-on:click="sortBy('firstname')"
                       :class="getSorticon('firstname')"
                     >
@@ -68,7 +68,7 @@
                     </a>
                   </th>
                   <th class="w400">
-                    Trạng thái<a
+                    {{ $t('game.table.status') }}<a
                       v-on:click="sortBy('email')"
                       :class="getSorticon('email')"
                     >

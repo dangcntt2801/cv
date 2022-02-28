@@ -6,8 +6,36 @@
         "btnRegister": "Đăng Ký",
         "remember": "Lưu Thông Tin"
     },
-    "left" : {
-        "download_cv" : "Tải CV"
-      },
-    "message": "hello i18n !!"
+    "left": {
+        "download_cv": "Tải CV"
+    },
+    "message": "hello i18n !!",
+    "game": {
+        "money_have": "Số tiền đang có",
+        "history_money": "Lịch sử Nạp tiền",
+        "table": {
+            "trading_code": "Mã giao dịch",
+            "day_trading": "Ngày giao dịch",
+            "deposit_amount": "Số tiền nạp",
+            "status": "trạng thái"
+        },
+        "setting": "Cài đặt",
+        "infor": "Thông tin cá nhân",
+        "recharge": "Nạp tiền",
+        "logout": "Đăng xuất",
+        "select_amount": "Chọn số tiền",
+        "the_money_have_to_pay": "Số tiền phải trả",
+        "amount_added": "Số tiền được cộng thêm",
+        "the_amount_actually_received": "Số tiền thực nhận",
+        "submit": "Xác nhận",
+        "account": "Tài khoản",
+        "duration": "Thời hạn",
+        "action": "action",
+        "last_status": "Lần cuối cập nhật",
+        "add": "Thêm",
+        "delete": "Xoá",
+        "cancel": "Huỷ bỏ",
+        "extend": "Gia hạn",
+        "ChangePassWord": "Thay đổi password"
+    }
 }

@@ -2,13 +2,13 @@
   <div class="form-account">
     <div class="group-btn">
         <div style="display:flex;justify-content: flex-end;">
-            <button type="button" class="btn btn-success" @click="actionSubmit"><i class="fas fa-plus"></i>{{mode == 'add' ? 'Add' : (mode == 'edit' ? 'ChangePassWord' : 'Rent') }}</button>
-            <button type="button" class="btn btn-secondary" @click="actionCancel">Cancel</button>
+            <button type="button" class="btn btn-success" @click="actionSubmit"><i class="fas fa-plus"></i>{{mode == 'add' ?  $t('game.add')  : (mode == 'edit' ?  $t('game.ChangePassWord')  :  $t('game.extend') ) }}</button>
+            <button type="button" class="btn btn-secondary" @click="actionCancel">{{ $t('game.cancel') }}</button>
         </div>
     </div>
     <div v-if="mode == 'rent'">
         <div class="mb-3">
-          <label for="" class="form-label">Thời hạn</label>
+          <label for="" class="form-label">{{ $t('game.duration') }}</label>
             <select class="form-control" v-model="renvalue" @change="onChange($event)">
                 <option v-for="(item,key) in dateRent" :key="key" v-bind:value="item.value" >{{item.text}}</option>
             </select>
@@ -20,7 +20,7 @@
           <input type="email" class="form-control" :disabled="mode != 'add'" placeholder="name@example.com" v-model="data.account">
         </div>
         <div class="mb-3">
-          <label for="" class="form-label">Pass</label>
+          <label for="" class="form-label">Password</label>
           <input type="password" class="form-control" v-model="data.password">
         </div>
     </div>

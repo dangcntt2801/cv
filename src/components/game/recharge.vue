@@ -2,15 +2,15 @@
   <div id="happyland" :class="mode == 'list' ? '' : 'active'">
     <div class="happyland-left">
         <Alert />
-        <h3>Nạp tiền</h3>
+        <h3>{{ $t('game.recharge') }}</h3>
         <div class="form-group">
-            <label for="exampleInputPassword1">Số tiền nạp</label>
+            <label for="exampleInputPassword1">{{ $t('game.table.deposit_amount') }}</label>
             <select 
                 v-model="moneySelect"
                 @change="onChange($event)"
                 class="custom-select custom-select-lg"
             >
-              <option value="">Chọn số tiền</option>
+              <option value="">{{ $t('game.select_amount') }}</option>
               <option value="25">25$</option>
               <option value="50">50$(10%)</option>
               <option value="100">100$(20%)</option>
@@ -18,18 +18,18 @@
             </select>
         </div>
         <div class="form-group">
-          <label for="exampleInputEmail1">Số tiền phải trả</label>
+          <label for="exampleInputEmail1">{{ $t('game.the_money_have_to_pay') }}</label>
           <input type="text" v-model="money1" class="form-control" id="exampleInputPassword1" disabled>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Số tiền được cộng thêm</label>
+          <label for="exampleInputPassword1">{{ $t('game.amount_added') }}</label>
           <input type="text" v-model="money2" class="form-control" id="exampleInputPassword1" disabled>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Số tiền thực nhận</label>
+          <label for="exampleInputPassword1">{{ $t('game.the_amount_actually_received') }}</label>
           <input type="text" v-model="money3" class="form-control" id="exampleInputPassword1" disabled>
         </div>
-        <button @click="submit" class="btn btn-primary">Submit</button>
+        <button @click="submit" class="btn btn-primary">{{ $t('game.submit') }}</button>
         <!-- <Pagination :pagination="pagination" @changePage="changePage" /> -->
         <div class="mt-5 alert alert-success" role="alert" v-show="msgBank != ''">
           Vui lòng chuyển {{this.money1}} về số tài khoản xxxxx

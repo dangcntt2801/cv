@@ -3,10 +3,10 @@
     <div class="happyland-left">
         <Alert />
         <div class="group-btn">
-          <button type="button" class="btn btn-success" @click="actionAdd()"><i class="fas fa-plus"></i>Add</button>
-          <button type="button" class="btn btn-danger" @click="actionDelete()"><i class="fas fa-minus"></i>Delete</button>
+          <button type="button" class="btn btn-success" @click="actionAdd()"><i class="fas fa-plus"></i>{{ $t('game.add') }}</button>
+          <button type="button" class="btn btn-danger" @click="actionDelete()"><i class="fas fa-minus"></i>{{ $t('game.delete') }}</button>
         </div>
-        <h3>Account</h3>
+        <h3>{{ $t('game.account') }}</h3>
         <TableDataLength :limit="limit" @limit="changeLimit"></TableDataLength>
         <div class="account-table">
           <div class="width_max">
@@ -22,7 +22,7 @@
                       />
                   </th>
                   <th class="w90">
-                    account<a
+                    {{ $t('game.account') }}<a
                       v-on:click="sortBy('level')"
                       :class="getSorticon('level')"
                     >
@@ -38,7 +38,7 @@
                     </a>
                   </th>
                   <th class="w200">
-                    Thời hạn
+                    {{ $t('game.duration') }}
                     <a
                       v-on:click="sortBy('lastname')"
                       :class="getSorticon('lastname')"
@@ -55,7 +55,7 @@
                     </a>
                   </th>
                   <th class="w400">
-                    action<a
+                    {{ $t('game.action') }}<a
                       v-on:click="sortBy('email')"
                       :class="getSorticon('email')"
                     >
@@ -71,7 +71,7 @@
                     </a>
                   </th>
                   <th class="w300">
-                    status<a
+                    {{ $t('game.table.status') }}<a
                       v-on:click="sortBy('phone')"
                       :class="getSorticon('phone')"
                     >
@@ -87,7 +87,7 @@
                     </a>
                   </th>
                    <th class="w300">
-                    Lần cuối cập nhật<a
+                    {{ $t('game.last_status') }}<a
                       v-on:click="sortBy('phone')"
                       :class="getSorticon('phone')"
                     >
@@ -121,8 +121,8 @@
                   <td v-show="user.status != 1 "><button type="button" class="btn btn-primary" @click='actionPlayGame(user.account)'>Play Game</button></td>
                   <td>{{this.sttName[user.account]}}</td>
                   <td>{{formatDate(this.timeStamp[user.account])}}</td>
-                  <td><button type="button" class="btn btn-primary" @click='actionEdit(index)'>ChangePassWord</button></td>
-                  <td><button type="button" class="btn btn-warning" @click='actionRent(index)'>Gia hạn</button></td>
+                  <td><button type="button" class="btn btn-primary" @click='actionEdit(index)'>{{ $t('game.ChangePassWord') }}</button></td>
+                  <td><button type="button" class="btn btn-warning" @click='actionRent(index)'>{{ $t('game.extend') }}</button></td>
                 </tr>
               </tbody>
               <tbody v-else>
