@@ -151,7 +151,7 @@ export default {
   setup() {
     const arrPlayer = ref([]);
     onMounted(async () => {
-      const res = await axios.get("http://api.hdnft.online?url=user/user-dashboard-api");
+      const res = await axios.get("https://api.hdnft.online?url=user/user-dashboard-api");
       arrPlayer.value = res.data.data
     });
       return {

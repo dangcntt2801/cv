@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://api.hdnft.online/be?url=user';
+axios.defaults.baseURL = 'https://api.hdnft.online/be?url=user';
 // axios.defaults.baseURL = 'https://api-starter.websanova.com/v1';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 

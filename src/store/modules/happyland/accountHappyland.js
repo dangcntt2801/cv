@@ -16,7 +16,7 @@ const mutations = {
 const actions = {
     async myAccount({ commit }) {
         try {
-            let all = await axiosInstanct.get(`http://api.hdnft.online?url=user/user-api&action=getUserSystem`)
+            let all = await axiosInstanct.get(`https://api.hdnft.online?url=user/user-api&action=getUserSystem`)
             if (all.status == 200) {
                 commit('SETACCOUNT', all.data.data)
             }

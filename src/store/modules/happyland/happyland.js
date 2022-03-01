@@ -49,7 +49,7 @@
     const actions = {
         async all({ commit }) {
             try {
-                let all = await axiosInstanct.get(`http://api.hdnft.online?url=user/user-api&action=getAccountsGame`)
+                let all = await axiosInstanct.get(`https://api.hdnft.online?url=user/user-api&action=getAccountsGame`)
                 if (all.status == 200) {
                     commit('SETALL', all.data.data)
                 }
@@ -61,7 +61,7 @@
         async add({ dispatch, commit }, params) {
             try {
                 // eslint-disable-next-line no-unused-vars
-                let addAccount = await axiosInstanct.post(`http://api.hdnft.online/?url=user/user-api&action=add`, qs.stringify({
+                let addAccount = await axiosInstanct.post(`https://api.hdnft.online/?url=user/user-api&action=add`, qs.stringify({
                     account: params.account,
                     password: params.password,
                     type: 'happyland',
@@ -91,7 +91,7 @@
         async delete({ dispatch, commit }, params) {
             try {
                 // eslint-disable-next-line no-unused-vars
-                let addAccount = await axiosInstanct.post(`http://api.hdnft.online/?url=user/user-api&action=removeAccountGame`, qs.stringify({
+                let addAccount = await axiosInstanct.post(`https://api.hdnft.online/?url=user/user-api&action=removeAccountGame`, qs.stringify({
                     type: params.type,
                     account: params.account
                 }))
@@ -119,7 +119,7 @@
         async changePassWord({ dispatch, commit }, params) {
             try {
                 // eslint-disable-next-line no-unused-vars
-                let addAccount = await axiosInstanct.post(`http://api.hdnft.online/?url=user/user-api&action=updateAccountPassword`, qs.stringify({
+                let addAccount = await axiosInstanct.post(`https://api.hdnft.online/?url=user/user-api&action=updateAccountPassword`, qs.stringify({
                     type: 'happyland',
                     account: params.account,
                     password: params.password
@@ -147,7 +147,7 @@
         // eslint-disable-next-line no-unused-vars
         async playgame({ dispatch, commit }, params) {
             try {
-                let playGame = await axiosInstanct.post(`http://api.hdnft.online/?url=user/user-api/action-api&action=play`, qs.stringify({
+                let playGame = await axiosInstanct.post(`https://api.hdnft.online/?url=user/user-api/action-api&action=play`, qs.stringify({
                     type: 'happyland',
                     account: params,
                 }))
@@ -170,7 +170,7 @@
         },
         async stopgame({ dispatch, commit }, params) {
             try {
-                let playGame = await axiosInstanct.post(`http://api.hdnft.online?url=user/user-api/action-api&action=endGame`, qs.stringify({
+                let playGame = await axiosInstanct.post(`https://api.hdnft.online?url=user/user-api/action-api&action=endGame`, qs.stringify({
                     type: 'happyland',
                     account: params,
                 }))
@@ -193,7 +193,7 @@
         },
         async recharge({ dispatch, commit }, params) {
             try {
-                let recharge = await axiosInstanct.post(`http://api.hdnft.online?url=user/wallet-api&action=recharge`, qs.stringify({
+                let recharge = await axiosInstanct.post(`https://api.hdnft.online?url=user/wallet-api&action=recharge`, qs.stringify({
                     value: params
                 }))
                 if (recharge.status == 200) {
@@ -215,7 +215,7 @@
         },
         async allTransition({ dispatch, commit }, params) {
             try {
-                let all = await axiosInstanct.post(`http://api.hdnft.online?url=user/wallet-api&action=history`)
+                let all = await axiosInstanct.post(`https://api.hdnft.online?url=user/wallet-api&action=history`)
                 if (all.status == 200) {
                     commit('SETALLTRANSITION', all.data.data)
                 }
@@ -225,7 +225,7 @@
         },
         async rent({ dispatch, commit }, params) {
             try {
-                let rent = await axiosInstanct.post(`http://api.hdnft.online?url=user/user-api&action=upgrade`, qs.stringify({
+                let rent = await axiosInstanct.post(`https://api.hdnft.online?url=user/user-api&action=upgrade`, qs.stringify({
                     account: params.account,
                     type: 'happyland',
                     day: params.day
