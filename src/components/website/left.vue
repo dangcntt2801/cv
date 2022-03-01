@@ -34,9 +34,16 @@
           </div>
           <div class="navigation game">
               <div class="navigation-title">
-                  <div> Game </div>
+                  <div> Happy Lands </div>
               </div>
               <div class="navigation-box">
+                  <router-link :to="{ name: 'statistical'}">
+                    <div class="navigation-item"
+                    :class="currentRouteName == 'statistical' ? 'active' :''">
+                       <i class="fas fa-user"></i>
+                       <span>{{ $t('game.statistical') }}</span>
+                    </div>
+                  </router-link>
                   <router-link :to="{ name: 'happyland'}">
                     <div class="navigation-item"
                     :class="currentRouteName == 'happyland' ? 'active' :''">

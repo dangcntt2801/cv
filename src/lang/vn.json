@@ -17,7 +17,15 @@
             "trading_code": "Mã giao dịch",
             "day_trading": "Ngày giao dịch",
             "deposit_amount": "Số tiền nạp",
-            "status": "trạng thái"
+            "status": "trạng thái",
+            "Name": "Tên",
+            "Level": "Cấp độ",
+            "Price": "Giá",
+            "PriceHPL": "Giá HPL",
+            "PriceHPW": "Giá HPW",
+            "HarvestAmount": "Sản lượng thu hoạch",
+            "GrowthTime": "Thời gian trưởng thành",
+            "TypeLand": "Loại đất có thể trồng"
         },
         "setting": "Cài đặt",
         "infor": "Thông tin cá nhân",
@@ -36,6 +44,10 @@
         "delete": "Xoá",
         "cancel": "Huỷ bỏ",
         "extend": "Gia hạn",
-        "ChangePassWord": "Thay đổi password"
+        "ChangePassWord": "Thay đổi password",
+        "statistical": "Thống kê",
+        "animals": "Động vật",
+        "seeds": "Thực vật"
+
     }
 }

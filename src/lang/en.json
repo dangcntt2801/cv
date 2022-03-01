@@ -17,7 +17,15 @@
             "trading_code": "Trading code",
             "day_trading": "Day trading",
             "deposit_amount": "Deposit amount",
-            "status": "status"
+            "status": "status",
+            "Name": "Name",
+            "Level": "Level",
+            "Price": "Price",
+            "PriceHPL": "PriceHPL",
+            "PriceHPW": "PriceHPW",
+            "HarvestAmount": "HarvestAmount",
+            "GrowthTime": "GrowthTime",
+            "TypeLand": "Type Land"
         },
         "setting": "Setting",
         "infor": "Information",
@@ -36,6 +44,9 @@
         "delete": "Delete",
         "cancel": "Cancel",
         "extend": "Extend",
-        "ChangePassWord": "ChangePassWord"
+        "ChangePassWord": "ChangePassWord",
+        "statistical": "Statistical",
+        "animals": "Animals",
+        "seeds": "Seeds"
     }
 }

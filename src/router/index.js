@@ -4,6 +4,7 @@ import login from '@/components/game/login'
 import index from '@/components/website/index'
 import happyland from '@/components/game/happyland'
 import recharge from '@/components/game/recharge'
+import statistical from '@/components/game/statistical'
 import about from '@/components/game/about'
 import home_page from '@/components/website/homePage/home_page'
 
@@ -38,6 +39,11 @@ const routes = [{
                 path: 'about',
                 name: 'about',
                 component: about
+            },
+            {
+                path: 'statistical',
+                name: 'statistical',
+                component: statistical
             },
         ]
     },
