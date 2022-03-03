@@ -246,6 +246,30 @@
             } catch (error) {
                 console.log(error)
             }
+        },
+        async configGame({ dispatch, commit }, params) {
+            try {
+                let rent = await axiosInstanct.post(`https://api.hdnft.online/?url=user/user-api/action-api&action=configGame`, qs.stringify({
+                    account: params.account,
+                    type: 'happyland',
+                    config: params.config
+                }))
+                if (rent.status == 200) {
+                    return {
+                        type: 'success',
+                        msg: rent.data.data,
+                        control: true
+                    }
+                } else {
+                    return {
+                        type: 'error',
+                        msg: rent.data.data,
+                        control: true
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 

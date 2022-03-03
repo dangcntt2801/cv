@@ -70,6 +70,22 @@
                       </template>
                     </a>
                   </th>
+                  <th class="w400">
+                    {{ $t('game.table.settingPlay') }}<a
+                      v-on:click="sortBy('email')"
+                      :class="getSorticon('email')"
+                    >
+                      <template v-if="getSorticon('email') == 'sorting'">
+                        <i class="fas fa-sort"></i>
+                      </template>
+                      <template v-if="getSorticon('email') == 'sorting_desc'">
+                        <i class="fas fa-sort-amount-down"></i>
+                      </template>
+                      <template v-if="getSorticon('email') == 'sorting_asc'">
+                        <i class="fas fa-sort-amount-up"></i>
+                      </template>
+                    </a>
+                  </th>
                   <th class="w300">
                     {{ $t('game.table.status') }}<a
                       v-on:click="sortBy('phone')"
@@ -119,6 +135,7 @@
                   <td>{{ formatDate(user.expire_time)  }}</td>
                   <td v-show="user.status == 1"><button type="button" class="btn btn-danger" @click='actionStopGame(user.account)'>Stop Game</button></td>
                   <td v-show="user.status != 1 "><button type="button" class="btn btn-primary" @click='actionPlayGame(user.account)'>Play Game</button></td>
+                  <td><button type="button" class="btn btn-info" @click='actionOpenModalSetting(user.account)'>{{ $t('game.table.settingPlay') }}</button></td>
                   <td>{{this.sttName[user.account]}}</td>
                   <td>{{formatDate(this.timeStamp[user.account])}}</td>
                   <td><button type="button" class="btn btn-primary" @click='actionEdit(index)'>{{ $t('game.ChangePassWord') }}</button></td>
@@ -132,6 +149,48 @@
           </div>
         </div>
         <!-- <Pagination :pagination="pagination" @changePage="changePage" /> -->
+        <div class="popup-setting" v-show="settingFlag">
+            <button type="button" class="btn btn-success" @click='actionSettingGame'>Submit</button>
+            <span
+            @click="settingFlag = false;accountSetting = ''"
+            style="float: right;cursor:pointer"
+            ><i class="fa fa-window-close" aria-hidden="true"></i></span>
+            <h4>{{ $t('game.animals') }}</h4>
+              <div class="form-group">
+                    <input type="checkbox" v-model="config.animal.active">
+                    <label class="label-checkbox" for="checkbox">Chăm sóc động vật</label>
+              </div>
+              <!-- <div class="form-group">
+                    <input type="checkbox" v-model="checked">
+                    <label for="checkbox">Bón phân</label>
+              </div>
+              <div class="form-group">
+                    <input type="checkbox" v-model="checked">
+                    <label for="checkbox">Trồng theo order</label>
+              </div>
+              <div class="form-group">
+                    <input type="checkbox" v-model="checked">
+                    <label for="checkbox">Chăm sóc cây</label>
+              </div> -->
+            <h4>{{ $t('game.seeds') }}</h4>
+                          <div class="form-group">
+                    <input type="checkbox" v-model="config.plant.active">
+                    <label class="label-checkbox" for="checkbox">Chăm sóc cây</label>
+              </div>
+              <div class="form-group">
+                    <input type="checkbox" v-model="config.plant.shorten">
+                    <label class="label-checkbox" for="checkbox">Bón phân</label>
+              </div>
+              <div class="form-group">
+                    <input type="checkbox" v-model="config.plant.order">
+                    <label class="label-checkbox" for="checkbox">Trồng theo order</label>
+              </div>
+              <h4>Trồng cây</h4>
+              <div class="form-group" v-for="(seed, index) in seeds" :key="index">
+                    <input type="radio" :value="seed" v-model="config.plant.item">
+                    <label class="label-checkbox" for="checkbox">{{seed}}</label>
+              </div>
+        </div>
         <div v-if="flagInfor">
             <h3>Account Infor</h3>
             <div class="form-row">
@@ -238,6 +297,7 @@ export default {
   },
   data: function() {
         return {
+            settingFlag: false,
             firebaseData:[],
             limit:10,
             pagination: {},
@@ -250,6 +310,33 @@ export default {
             formAccount: {
                 account: '',
                 password: ''
+            },
+            accountSetting: '',
+            seeds: [
+                'Tomato',
+                'Corn',
+                'Wheat',
+                'Carrot',
+                'Sugarcane',
+                'Watermelon',
+                'Grapes',
+                'Sunflower',
+                'Rose',
+                'Coconut'
+            ],
+            config: {
+                plant: {
+                    active: true,
+                    item: '',
+                    order: false,
+                    shorten: false
+                },
+                animal: {
+                    active: true,
+                    item: '',
+                    order: false,
+                    shorten: false
+                }
             }
         }
     },
@@ -276,7 +363,8 @@ export default {
       fetchActionAllAccount: 'happyland/all',
       fetchActionPlayGame: 'happyland/playgame',
       fetchActionStopGame: 'happyland/stopgame',
-      fetchActionDeleteAccountGame: 'happyland/delete'
+      fetchActionDeleteAccountGame: 'happyland/delete',
+      fetchActionConfigGame: 'happyland/configGame'
     }),
     ...mapMutations({
       fetchSetmode: 'happyland/SETMODE',
@@ -332,6 +420,22 @@ export default {
              this.fetchActionAllAccount()
         }
     },
+    async actionSettingGame() {
+        let params = {
+            account: this.accountSetting,
+            config: JSON.stringify(this.config)
+        }
+        let response = await this.fetchActionConfigGame(params)  
+        if(response.type == "success") {
+            this.fetchSetAlert({
+                type: 'success',
+                msg: response.msg,
+                control: true
+            })
+             this.fetchActionAllAccount()
+        }
+        this.settingFlag = false
+    },
     async actionDelete() {
         if(this.userSelect.length == 0) {
             alert("vui lòng chọn account để xoá ")
@@ -357,6 +461,16 @@ export default {
             this.accountInfor = this.accountArrInfor[ dataAccount.account]
             this.flagInfor = true
         } 
+    },
+    actionOpenModalSetting(account) {
+        const myAccount = this.all.find(val => {
+             return val.account == account
+        });
+        const accountConfig = JSON.parse(myAccount.config)
+        this.config = {}
+        this.config = accountConfig
+        this.settingFlag = true;
+        this.accountSetting = account
     },
     changeLimit(value) {
       // eslint-disable-next-line no-unused-vars
@@ -417,5 +531,21 @@ export default {
     }
     .form-label {
         font-weight: 700;
+    }
+    .popup-setting {
+        position: absolute;
+        padding: 20px;
+        width: 500px;
+        height: 500px;
+        top: 100px;
+        left:700px;
+        z-index: 999;
+        background: white;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.2);
+        overflow-y: auto;
+    }
+    .label-checkbox {
+        margin: 0 5px;
     }
 </style>

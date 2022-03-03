@@ -25,7 +25,8 @@
             "PriceHPW": "PriceHPW",
             "HarvestAmount": "HarvestAmount",
             "GrowthTime": "GrowthTime",
-            "TypeLand": "Type Land"
+            "TypeLand": "Type Land",
+            "settingPlay": "Setting Play"
         },
         "setting": "Setting",
         "infor": "Information",

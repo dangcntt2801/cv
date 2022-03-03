@@ -25,7 +25,8 @@
             "PriceHPW": "Giá HPW",
             "HarvestAmount": "Sản lượng thu hoạch",
             "GrowthTime": "Thời gian trưởng thành",
-            "TypeLand": "Loại đất có thể trồng"
+            "TypeLand": "Loại đất có thể trồng",
+            "settingPlay": "Setting Play"
         },
         "setting": "Cài đặt",
         "infor": "Thông tin cá nhân",
@@ -47,7 +48,8 @@
         "ChangePassWord": "Thay đổi password",
         "statistical": "Thống kê",
         "animals": "Động vật",
-        "seeds": "Thực vật"
-
+        "seeds": "Thực vật",
+        "careSeed": "Chăm sóc cây",
+        "careAnimal": "Chăm sóc động vật"
     }
 }
