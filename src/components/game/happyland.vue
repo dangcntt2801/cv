@@ -192,7 +192,15 @@
               </div>
         </div>
         <div v-if="flagInfor">
-            <h3>Account Infor</h3>
+            <div class="tab">
+          <ul class="prodNav">
+            <li id="pTab1" :class="tab == 1 ? 'active' : '' " @click="tab = 1" class="ptItem">Account infor</li>
+            <li id="pTab1" :class="tab == 2 ? 'active' : '' " @click="tab = 2" class="ptItem">{{ $t('game.animals') }}</li>
+            <li id="pTab2" :class="tab == 3 ? 'active' : '' " @click="tab = 3" class="ptItem">{{ $t('game.seeds') }}</li>
+          </ul>
+          <div class="">
+            <div v-show="tab == 1">
+                <h3>Account Infor</h3>
             <div class="form-row">
               <div class="form-group col-md-6">
                     <label for="" class="form-label">UserName</label>
@@ -262,8 +270,54 @@
               <p>{{accountInfor.hpwSpend}}</p>
               </div>
             </div>
-          
-
+            </div>
+            <div class="" id="" v-show="tab == 2">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Thời gian cho ăn tiếp theo</th>
+                    <th scope="col">Thời gian ra sản phẩm</th>
+                    <th scope="col">Thời gian mua</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <template v-for="(arrAnimal, index) in accountArrAnimals" :key="index">
+                        <tr v-for="(animal, index) in arrAnimal.data" :key="index">
+                            <td>{{ animal.name }}</td>
+                            <td>{{ moment(animal.nextFeed) }}</td>
+                            <td>{{ moment(animal.nextProduct) }}</td>
+                            <td>{{ moment(animal.growthAt) }}</td>
+                        </tr>
+                    </template>
+                  
+                </tbody>
+              </table>
+            </div>
+            <div class="" id="" v-show="tab == 3">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Thời gian tưới nước tiếp theo</th>
+                    <th scope="col">Thời gian bắt sâu tiếp theo</th>
+                    <th scope="col">Thời gian mua</th>
+                    <th scope="col">Số lượng thu hoạch</th>
+                  </tr>
+                </thead>
+                <tbody>
+                        <tr v-for="(seed, index) in accountArrSeeds" :key="index">
+                            <td>{{ seed.tree.name }}</td>
+                            <td>{{ moment(seed.tree.nextWater)}}</td>
+                            <td>{{ moment(seed.tree.nextWorm) }}</td>
+                            <td>{{ moment(seed.tree.growthAt) }}</td>
+                            <td>{{ seed.tree.properties.harvestAmount }}</td>
+                        </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
         </div>
         
     </div>
@@ -304,6 +358,10 @@ export default {
             sttName: {},
             timeStamp: {},
             accountArrInfor: {},
+            accountAnimals:{},
+            accountArrAnimals:[],
+            accountSeeds:{},
+            accountArrSeeds:[],
             accountInfor: {},
             flagInfor: false,
             userSelect: [],
@@ -337,7 +395,8 @@ export default {
                     order: false,
                     shorten: false
                 }
-            }
+            },
+            tab:1
         }
     },
     created() {
@@ -374,6 +433,11 @@ export default {
     formatDate(val) {
         if (val) {
             return moment((val*1000)).format('MM/DD/YYYY hh:mm')
+        }
+    },
+    moment: function (val) {
+        if (val) {
+            return moment(val).format('MM/DD/YYYY hh:mm')
         }
     },
     actionAdd() {
@@ -459,6 +523,8 @@ export default {
         let dataAccount = this.all[index]
         if(  Object.keys(this.accountArrInfor[ dataAccount.account]).length !== 0 ) {
             this.accountInfor = this.accountArrInfor[ dataAccount.account]
+            this.accountArrAnimals = this.accountAnimals[ dataAccount.account]
+            this.accountArrSeeds = this.accountSeeds[ dataAccount.account]
             this.flagInfor = true
         } 
     },
@@ -485,6 +551,8 @@ export default {
             this.sttName[documentName] = doc.data().detail
             this.timeStamp[documentName] = doc.data().time.seconds
             this.accountArrInfor[documentName] = doc.data().infor
+            this.accountAnimals[documentName] = doc.data().animals
+            this.accountSeeds[documentName] = doc.data().farm
         });
     }
   },
@@ -548,4 +616,54 @@ export default {
     .label-checkbox {
         margin: 0 5px;
     }
+    .prodNav {
+  font-size: 12px;
+  background: #f5f5f5;
+  border-radius: 20px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px 0 20px;
+  line-height: 1.1;
+}
+.prodNav .ptItem {
+  padding: 9px 35px;
+  line-height: 20px;
+  border-radius: 20px;
+  border: 1px solid #333;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  transition: all 0.3s ease-in-out;
+}
+
+.prodNav .ptItem.active,
+.prodNav .ptItem:hover {
+  background: #652796;
+  border-color: #652796;
+  color: #ffffff;
+}
+
+.prodBody {
+  border: 1px solid #c1c1c1;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.prodMain {
+  padding: 20px;
+  color: #ffffff;
+}
+
+#pTab1C {
+  background: #343bbf;
+}
+#pTab2C {
+  background: #f06f24;
+}
+
+#pTab3C {
+  background: #249ef0;
+}
 </style>
