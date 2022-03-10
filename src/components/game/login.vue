@@ -7,8 +7,8 @@
                 <p>Don't have an account? <a href="#" @click="mode = 'sign_up'">Sign up</a></p>
                 <div class="form">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input v-model="state_login.email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <label for="exampleInputEmail1">User Name</label>
+                    <input v-model="state_login.email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter UserName">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
@@ -30,12 +30,12 @@
                 <p>Already have an account? <a href="#" @click="mode = 'sign_in'">Sign in</a></p>
                 <form>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Full Name</label>
-                    <input v-model="state_register.fullname" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter Full Name">
+                    <label for="exampleInputEmail1">Phone</label>
+                    <input v-model="state_register.phone" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter Full Name">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input v-model="state_register.email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+                    <label for="exampleInputEmail1">User Name</label>
+                    <input v-model="state_register.email" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
@@ -88,7 +88,7 @@
                 password : '123456'
             })
             const state_register = reactive({
-                fullname: '',
+                phone: '',
                 email : '',
                 password : ''
             })
@@ -112,7 +112,6 @@
             }
 
             async function login() {
-                debugger
                 auth.login({
                     data: qs.stringify({
                         msisdn: state_login.email,
@@ -128,16 +127,22 @@
                 });
             }
             async function register() {
-                let rs = await axios.post('https://api.hdnft.online/be?url=user/signup-api',qs.stringify(state_register))
+               let rs = await axios.post('https://api.hdnft.online?url=user/user-api&action=signup',qs.stringify({
+                            msisdn: state_register.email,
+                            password: state_register.password,
+                            phone:state_register.phone
+                        }))
+                if(rs.status == 0) alert("thành công")
             }
-            return {
-                state_login,
-                state_register,
-                mode,
-                login,
-                register,
-                error
-            }
+                return {
+                    state_login,
+                    state_register,
+                    mode,
+                    login,
+                    register,
+                    error
+                }
+           
 
         },
 		mounted() {
