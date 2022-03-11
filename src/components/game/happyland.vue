@@ -540,12 +540,17 @@ export default {
         const myAccount = this.all.find(val => {
              return val.account == account
         });
-        const accountConfig = JSON.parse(myAccount.config)
-        this.config = {}
-        this.config = accountConfig
+        if(myAccount.config){
+          const accountConfig = JSON.parse(myAccount.config)
+          this.config = {}
+          this.config = accountConfig
+          
+        }
         this.settingFlag = true;
         this.accountSetting = account
+        
     },
+    
     changeLimit(value) {
       // eslint-disable-next-line no-unused-vars
       let a  = value;
