@@ -17,8 +17,9 @@
             <h3>Top Player</h3>
             <player />
             <div class="footer"></div>
+            <h4><a href="https://t.me/+--gv0X5CDWI0MDA9"  target="_blank">Telegram: HDNFT_suport</a></h4>
         </div>
-      
+       
     </div>
 </template>
 

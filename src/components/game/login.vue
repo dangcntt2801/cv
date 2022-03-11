@@ -47,7 +47,7 @@
                         <label class="form-check-label" for="exampleCheck1">I agree to theTerms of Service andPrivacy Policy</label>
                     </span>
                   </div>
-                  <button @click="register()" class="btn btn-primary btn-block">Submit</button>
+                  <button type="button" @click="register()" class="btn btn-primary btn-block">Submit</button>
                 </form>
             </div>
             
@@ -78,14 +78,17 @@
     // import {useRouter} from 'vue-router';
     import { useAuth } from '../../v3.js';
     import { mapState, mapMutations, mapActions} from 'vuex'
+    import { useToast } from "vue-toastification";
 	export default {
 		name: 'P101Login',
         setup() {
             const error       = ref('')
             const auth        = useAuth();
+            // Get toast interface
+            const toast = useToast();
             const state_login = reactive({
-                email : 'lehonghaibndc',
-                password : '123456'
+                email : '',
+                password : ''
             })
             const state_register = reactive({
                 phone: '',
@@ -95,8 +98,8 @@
             // const store    = useStore();
             // const router   = useRouter();
             // const authComp = useAuthComp();
-
-            const mode = 'sign_in'  
+     
+            var mode = 'sign_in'  
             const state = reactive({
                 form: {
                     remember: false,
@@ -106,12 +109,12 @@
                 }
             });
 
-
             function errors(res) {
                 state.form.errors = Object.fromEntries(res.data.errors.map(item => [item.field, item.msg]));
             }
-
+            
             async function login() {
+                 
                 auth.login({
                     data: qs.stringify({
                         msisdn: state_login.email,
@@ -126,21 +129,35 @@
                     error.value = "Sai tên đăng nhập hoặc mật khẩu";
                 });
             }
+                  
             async function register() {
-               let rs = await axios.post('https://api.hdnft.online?url=user/user-api&action=signup',qs.stringify({
+               let rs = await axios.post('https://api.hdnft.online?url=user/signup-api',qs.stringify({
                             msisdn: state_register.email,
                             password: state_register.password,
                             phone:state_register.phone
-                        }))
-                if(rs.status == 0) alert("thành công")
+                        })).catch(res=>{
+                            console.log(res)
+                        })
+                if(rs.data.status == 1){
+                    mode = 'sign_in';  
+                    toast.success("Đăng kí thành công", {
+                        timeout: 2000
+                    }); 
+                }else{
+                    toast.error(rs.data.message[0], {
+                        timeout: 2000
+                    });
+                }
             }
+           
                 return {
                     state_login,
                     state_register,
                     mode,
                     login,
                     register,
-                    error
+                    error,
+                    toast
                 }
            
 
@@ -149,6 +166,7 @@
 	
 		},
 		methods: {
+
 		}
 	}
 

@@ -154,12 +154,14 @@
                 if (playGame.status == 200) {
                     return {
                         type: 'success',
+                        status: playGame.data.status,
                         msg: playGame.data.message,
                         control: true
                     }
                 } else {
                     return {
                         type: 'error',
+                        status: playGame.data.status,
                         msg: playGame.data.message,
                         control: true
                     }

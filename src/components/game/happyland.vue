@@ -338,7 +338,7 @@ import Alert from "../common/alert";
 import formAccount from './formAccount.vue'
 import { mapState, mapMutations, mapActions} from 'vuex'
 import { db , onSnapshot, doc} from '../../firebase'
-
+import { useToast } from "vue-toastification";
 export default {
   mixins: [Table],
   components: {
@@ -348,6 +348,9 @@ export default {
     Alert
   },
   setup() {
+     // Get toast interface
+     const toast = useToast();
+     return {toast}
   },
   data: function() {
         return {
@@ -463,6 +466,11 @@ export default {
     },
     async actionPlayGame(account) {
         let playgame = await this.fetchActionPlayGame(account)
+        if(playgame.status == 0){
+          this.toast.error(playgame.msg[0], {
+                        timeout: 2000
+                    });
+        }
         if(playgame.type == "success") {
             this.fetchSetAlert({
                 type: 'success',

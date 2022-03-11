@@ -8,8 +8,8 @@ export default {
     },
 
     response: function(res) {
-        var headers = this.drivers.http.getHeaders.call(this, res),
-            token = headers.Authorization || headers.authorization || res.data.data.token;
+        var headers = this.drivers.http.getHeaders.call(this, res);
+        var token = headers.Authorization || headers.authorization || (res.data?.data?.token ? res.data.data.token : null);
 
         if (token) {
             token = token.split(/Bearer:?\s?/i);
