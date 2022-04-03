@@ -9,7 +9,7 @@
           <div class="list-timestamp">
             <div class="item-timestamp">
               <div class="item-timestamp__left">
-                <div class="item-timestamp__left-year">2015-2019</div>
+                <div class="item-timestamp__left-year">2008</div>
                 <div class="item-timestamp__left-uni">
                   University of Studies
                 </div>
@@ -17,7 +17,7 @@
               <div class="item-timestamp__mid"></div>
               <div class="item-timestamp__right">
                 <div class="item-timestamp__right-position">
-                    Đại học Sư phạm kỹ thuật
+                  Frontend Development
                 </div>
                 <div class="item-timestamp__right-desc">
                   Maecenas finibus nec sem ut imperdiet. Ut tincidunt
@@ -222,10 +222,10 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'home',
+  name: 'skill',
   data () {
     return {
-      tab: 3
+      tab: 4
     }
   },
   computed: {

@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import index from '@/components/index'
-import login from '@/components/game/login'
-import index from '@/components/website/index'
-import happyland from '@/components/game/happyland'
-import recharge from '@/components/game/recharge'
-import statistical from '@/components/game/statistical'
-import about from '@/components/game/about'
-import home_page from '@/components/website/homePage/home_page'
+const home_page = () => import('@/components/website/homePage/home_page')
+const index_cv = () => import('@/components/index')
+const about = () => import('@/components/game/about')
+const statistical = () => import('@/components/game/statistical')
+const recharge = () => import('@/components/game/recharge')
+const happyland = () => import('@/components/game/happyland')
+const index = () => import('@/components/website/index')
+const login = () => import('@/components/game/login')
 
 const routes = [{
         path: '/',
@@ -17,6 +18,11 @@ const routes = [{
         path: '/login',
         name: 'Login',
         component: login
+    },
+    {
+        path: '/cv',
+        name: 'cv',
+        component: index_cv
     },
     {
         path: '/admin',

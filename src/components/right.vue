@@ -3,6 +3,7 @@
     <about />
     <home />
     <resume />
+    <skill />
   </div>
 </template>
 
@@ -10,12 +11,14 @@
 import about from './right/about'
 import home from './right/home'
 import resume from './right/resume'
+import skill from './right/skill'
 export default {
   name: 'right',
   components: {
     about,
     home,
-    resume
+    resume,
+    skill
   },
   data () {
     return {
@@ -24,3 +27,5 @@ export default {
   }
 }
 </script>
+<style scoped>
+</style>
